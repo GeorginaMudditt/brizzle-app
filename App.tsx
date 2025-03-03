@@ -12,9 +12,9 @@ export default function App() {
           source={require("./assets/brizzle-insta-square.png")}
           style={styles.logoWithName}
         />
-        <Text style={styles.introText}>
+        <Text style={[styles.introText, styles.introTextHeader]}>
           Bienvenue sur Brizzle{" "}
-          <Fontisto name="hot-air-balloon" size={20} color="black" />
+          <Fontisto name="hot-air-balloon" size={30} color="black" />
         </Text>
         <Text style={styles.introText}>
           Une application de vocabulaire où vous pouvez progresser en anglais à
@@ -44,5 +44,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingHorizontal: 30,
     paddingVertical: 10,
+  },
+  introTextHeader: {
+    fontSize: 30,
   },
 });
