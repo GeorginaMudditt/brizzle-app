@@ -1,12 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import { theme } from "../theme";
 import Entypo from "@expo/vector-icons/Entypo";
-import Fontisto from "@expo/vector-icons/Fontisto";
 
 export function HowItWorks() {
   return (
     <View style={styles.container}>
-      <Fontisto name="hot-air-balloon" style={styles.balloon} />
       <Text style={styles.h2}>À propos de l'application</Text>
       <Text style={styles.p}>
         Il y a 6 niveaux en accord avec le Cadre européen commun de référence
@@ -43,14 +41,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
-  balloon: {
-    alignSelf: "center",
-    color: theme.colorDarkPink,
-    fontSize: 25,
-  },
   h2: {
     fontSize: 20,
-    color: theme.colorDarkPink,
+    color: "white",
     marginVertical: 20,
   },
   p: {
@@ -59,7 +52,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   pTrophy: {
-    lineHeight: 30,
+    lineHeight: 40,
     color: "white",
     fontSize: 15,
   },

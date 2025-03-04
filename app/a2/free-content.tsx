@@ -1,26 +1,24 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { theme } from "../theme";
-import { Link } from "expo-router";
-import { LevelButtons } from "../components/LevelButtons";
+import { theme } from "../../theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Link } from "expo-router";
 
-export default function Levels() {
+export default function freeContent() {
   return (
     <View style={styles.container}>
-      <Link href="/" asChild>
+      <Link href="/levels" asChild>
         <Ionicons style={styles.arrowBack} name="arrow-back-circle" />
       </Link>
       <View>
         <Image
-          source={require("../assets/brizzle-insta-square.png")}
-          style={styles.logoWithName}
+          source={require("../../assets/brizzle-fb-cover.png")}
+          style={styles.landscapeLogoWithName}
         />
-        <Text style={[styles.introText, styles.introTextHeader]}>
-          À quel niveau souhaitez-vous vous entraîner ?
+        <Text style={styles.introTextHeader}>
+          Le contenu Brizzle A2 arrivera bientôt : prévu pour juillet 2025
         </Text>
       </View>
-      <LevelButtons />
     </View>
   );
 }
@@ -28,7 +26,6 @@ export default function Levels() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colorLightPink,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -39,20 +36,19 @@ const styles = StyleSheet.create({
     top: 20,
     left: 20,
   },
-  logoWithName: {
-    width: 200,
-    height: 200,
+  landscapeLogoWithName: {
+    width: 250,
+    height: 100,
     alignSelf: "center",
-    borderRadius: 100,
   },
   introTextHeader: {
+    backgroundColor: theme.colorA2,
     fontSize: 30,
-    color: theme.colorBlue,
-  },
-  introText: {
+    color: "white",
     textAlign: "center",
-    fontSize: 20,
-    paddingHorizontal: 30,
-    paddingVertical: 10,
+    padding: 10,
+    marginTop: 20,
+    marginHorizontal: 20,
+    borderRadius: 5,
   },
 });

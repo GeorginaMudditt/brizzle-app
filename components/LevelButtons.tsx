@@ -1,15 +1,28 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { theme } from "../theme";
+import { Link } from "expo-router";
 
 export function LevelButtons() {
   return (
     <View>
-      <TouchableOpacity style={[styles.button, styles.a1Button]}>
-        <Text style={styles.buttonText}>A1 : Débutant</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.a2Button]}>
-        <Text style={styles.buttonText}>A2 : Élémentaire</Text>
-      </TouchableOpacity>
+      <Link
+        href="a1/free-content"
+        asChild
+        style={[styles.button, styles.a1Button]}
+      >
+        <TouchableOpacity>
+          <Text style={styles.buttonText}>A1 : Débutant</Text>
+        </TouchableOpacity>
+      </Link>
+      <Link
+        href="a2/free-content"
+        asChild
+        style={[styles.button, styles.a2Button]}
+      >
+        <TouchableOpacity style={[styles.button, styles.a2Button]}>
+          <Text style={styles.buttonText}>A2 : Élémentaire</Text>
+        </TouchableOpacity>
+      </Link>
       <TouchableOpacity style={[styles.button, styles.b1Button]}>
         <Text style={styles.buttonText}>B1 : Intermédiaire</Text>
       </TouchableOpacity>
