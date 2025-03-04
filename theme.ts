@@ -10,4 +10,7 @@ export const theme = {
   colorB2: "#694C93",
   colorC1: "#8AC196",
   colorC2: "#FFCA39",
+  colorBronze: "#cd7f31",
+  colorSilver: "#c0c0c0",
+  colorGold: "#ffd700",
 };

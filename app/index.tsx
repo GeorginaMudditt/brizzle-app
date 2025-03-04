@@ -1,27 +1,31 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
-import { theme } from "./theme";
-import { LevelButtons } from "./components/levelButtons";
-import Fontisto from "@expo/vector-icons/Fontisto";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { theme } from "../theme";
+import { HowItWorks } from "../components/HowItWorks";
+import { Link } from "expo-router";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <View>
         <Image
-          source={require("./assets/brizzle-insta-square.png")}
+          source={require("../assets/brizzle-insta-square.png")}
           style={styles.logoWithName}
         />
         <Text style={[styles.introText, styles.introTextHeader]}>
           Bienvenue sur Brizzle{" "}
-          <Fontisto name="hot-air-balloon" size={30} color="black" />
         </Text>
         <Text style={styles.introText}>
           Une application de vocabulaire où vous pouvez progresser en anglais à
           votre rythme et en vous amusant !
         </Text>
       </View>
-      <LevelButtons />
+      <HowItWorks />
+      <Link href="/levels" asChild>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Allons-y !</Text>
+        </TouchableOpacity>
+      </Link>
     </View>
   );
 }
@@ -39,13 +43,24 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 100,
   },
+  introTextHeader: {
+    fontSize: 30,
+    color: theme.colorBlue,
+  },
   introText: {
     textAlign: "center",
     fontSize: 20,
     paddingHorizontal: 30,
     paddingVertical: 10,
   },
-  introTextHeader: {
-    fontSize: 30,
+  button: {
+    backgroundColor: theme.colorBlue,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
   },
 });
