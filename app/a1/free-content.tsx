@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { theme } from "../../theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link } from "expo-router";
+import AwardTable from "../../components/AwardTable";
 
 export default function freeContent() {
   return (
@@ -15,8 +16,16 @@ export default function freeContent() {
           source={require("../../assets/brizzle-fb-cover.png")}
           style={styles.landscapeLogoWithName}
         />
-        <Text style={styles.introTextHeader}>Bienvenue à Brizzle A1</Text>
+        <Text style={styles.introTextHeader}>Bienvenue sur Brizzle A1</Text>
       </View>
+      <View>
+        <Text style={styles.p}>
+          Cliquez sur les icônes des sujets à gauche pour accéder à vos défis.
+          Il y a 3 défis pour chaque sujet : "Bronze" (bronze), "Silver"
+          (argent) et "Gold" (or).
+        </Text>
+      </View>
+      <AwardTable />
     </View>
   );
 }
@@ -35,17 +44,22 @@ const styles = StyleSheet.create({
     left: 20,
   },
   landscapeLogoWithName: {
-    width: 250,
-    height: 100,
+    width: 200,
+    height: 75,
     alignSelf: "center",
   },
   introTextHeader: {
     backgroundColor: theme.colorA1,
-    fontSize: 30,
+    fontSize: 20,
     color: "white",
     textAlign: "center",
     padding: 10,
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 5,
+  },
+  p: {
+    fontSize: 16,
+    padding: 10,
+    textAlign: "center",
   },
 });
