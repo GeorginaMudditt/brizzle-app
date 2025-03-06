@@ -16,7 +16,7 @@ export default function freeContent() {
           style={styles.landscapeLogoWithName}
         />
         <Text style={styles.introTextHeader}>
-          Le contenu Brizzle B1 arrivera bientôt : prévu pour juillet 2025
+          Le contenu Brizzle B2 arrivera bientôt : prévu pour septembre 2025
         </Text>
       </View>
     </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   introTextHeader: {
-    backgroundColor: theme.colorB1,
+    backgroundColor: theme.colorB2,
     fontSize: 30,
     color: "white",
     textAlign: "center",
