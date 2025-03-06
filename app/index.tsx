@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../theme";
 import { HowItWorks } from "../components/HowItWorks";
-import { Link } from "expo-router";
 
 export default function App() {
   return (
@@ -21,11 +20,6 @@ export default function App() {
         </Text>
       </View>
       <HowItWorks />
-      <Link href="/levels" asChild>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Allons-y !</Text>
-        </TouchableOpacity>
-      </Link>
     </View>
   );
 }
@@ -33,15 +27,15 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colorLightPink,
     alignItems: "center",
     justifyContent: "center",
   },
   logoWithName: {
-    width: 200,
-    height: 200,
+    width: 180,
+    height: 180,
     alignSelf: "center",
     borderRadius: 100,
+    marginTop: 20,
   },
   introTextHeader: {
     fontSize: 30,
@@ -52,15 +46,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingHorizontal: 30,
     paddingVertical: 10,
-  },
-  button: {
-    backgroundColor: theme.colorBlue,
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 20,
   },
 });

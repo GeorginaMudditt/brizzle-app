@@ -28,7 +28,6 @@ export default function Levels() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colorLightPink,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -40,10 +39,11 @@ const styles = StyleSheet.create({
     left: 20,
   },
   logoWithName: {
-    width: 200,
-    height: 200,
+    width: 180,
+    height: 180,
     alignSelf: "center",
     borderRadius: 100,
+    marginTop: 20,
   },
   introTextHeader: {
     fontSize: 30,

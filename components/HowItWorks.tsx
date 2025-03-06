@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { theme } from "../theme";
 import Entypo from "@expo/vector-icons/Entypo";
+import { Link } from "expo-router";
 
 export function HowItWorks() {
   return (
@@ -13,7 +14,7 @@ export function HowItWorks() {
       <Text style={styles.p}>
         Pour chaque niveau, il y a au moins 20 thèmes différents (par exemple,
         "nourriture" ou "verbes"), et chaque thème comprend 3 défis pour
-        apprendre le vocabulaire.
+        apprendre le vocabulaire :
       </Text>
       <Text style={styles.pTrophy}>
         <Entypo style={styles.bronzeTrophy} name="trophy" /> Défi bronze : Lire
@@ -27,34 +28,40 @@ export function HowItWorks() {
         <Entypo style={styles.goldTrophy} name="trophy" /> Défi or : Écrire les
         mots
       </Text>
+      <Link href="/levels" asChild>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Allons-y !</Text>
+        </TouchableOpacity>
+      </Link>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colorGrey,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 30,
-    paddingVertical: 20,
-    marginTop: 20,
-    marginBottom: 20,
+    backgroundColor: theme.colorBlue,
+    padding: 20,
+    margin: 20,
+    borderRadius: 10,
   },
   h2: {
     fontSize: 20,
     color: "white",
-    marginVertical: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    textAlign: "center",
   },
   p: {
     fontSize: 15,
     color: "white",
-    lineHeight: 20,
+    lineHeight: 30,
+    textAlign: "justify",
   },
   pTrophy: {
-    lineHeight: 40,
+    lineHeight: 30,
     color: "white",
     fontSize: 15,
+    textAlign: "justify",
   },
   bronzeTrophy: {
     fontSize: 20,
@@ -67,5 +74,19 @@ const styles = StyleSheet.create({
   goldTrophy: {
     fontSize: 20,
     color: theme.colorGold,
+  },
+  button: {
+    backgroundColor: theme.colorRed,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    marginBottom: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
   },
 });
