@@ -75,18 +75,4 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: theme.colorGold,
   },
-  button: {
-    backgroundColor: theme.colorRed,
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginTop: 20,
-    marginBottom: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 20,
-  },
 });

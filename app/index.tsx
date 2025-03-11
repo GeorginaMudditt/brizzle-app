@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../theme";
-import { HowItWorks } from "../components/HowItWorks";
+import { Link } from "expo-router";
 
 export default function App() {
   return (
@@ -18,8 +18,24 @@ export default function App() {
           Une application de vocabulaire où vous pouvez progresser en anglais à
           votre rythme et en vous amusant !
         </Text>
+        <View style={styles.buttonContainer}>
+          <Link href="/onboarding1" asChild>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Allons-y !</Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
+        <Text style={styles.loginText}>
+          Êtes-vous déjà inscrit auprès de Brizzle ?
+        </Text>
+        <View style={styles.buttonContainer}>
+          <Link href="/login" asChild>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Connectez-vous</Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
       </View>
-      <HowItWorks />
     </View>
   );
 }
@@ -29,6 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingVertical: 50,
   },
   logoWithName: {
     width: 180,
@@ -38,13 +55,36 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   introTextHeader: {
-    fontSize: 30,
+    fontSize: 40,
     color: theme.colorBlue,
   },
   introText: {
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 30,
     paddingHorizontal: 30,
     paddingVertical: 10,
+  },
+  button: {
+    backgroundColor: theme.colorRed,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderRadius: 5,
+    width: 250,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
+  },
+  loginText: {
+    marginTop: 50,
+    textAlign: "center",
+    fontSize: 20,
   },
 });
