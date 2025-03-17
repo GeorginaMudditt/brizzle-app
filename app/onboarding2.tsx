@@ -39,6 +39,10 @@ export default function Onboarding2() {
     });
   };
 
+  const isFormValid = () => {
+    return firstName.trim().length >= 2 && lastName.trim().length >= 2;
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -59,7 +63,11 @@ export default function Onboarding2() {
         value={lastName}
         onChangeText={setLastName}
       />
-      <TouchableOpacity style={styles.button} onPress={handleContinue}>
+      <TouchableOpacity
+        style={[styles.button, !isFormValid() && styles.disabledButton]}
+        onPress={handleContinue}
+        disabled={!isFormValid()}
+      >
         <Text style={styles.buttonText}>Continuez</Text>
       </TouchableOpacity>
     </View>
@@ -106,6 +114,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  disabledButton: {
+    backgroundColor: theme.colorGrey,
   },
   buttonText: {
     color: "white",

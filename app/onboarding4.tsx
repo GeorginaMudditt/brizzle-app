@@ -1,10 +1,32 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+  TextInput,
+} from "react-native";
 import { theme } from "../theme";
 import { Link, useLocalSearchParams } from "expo-router";
+import { supabase } from "../supabaseClient";
 
 export default function Onboarding4() {
   const { username } = useLocalSearchParams();
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const handleContinue = async () => {
+    const { data, error } = await supabase
+      .from("users")
+      .insert([{ username, email, password }]);
+    if (error) {
+      Alert.alert("Erreur", error.message);
+    } else {
+      Alert.alert("Succès", "Utilisateur créé avec succès !");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -16,12 +38,23 @@ export default function Onboarding4() {
       <Text style={styles.introText}>
         Veuillez saisir votre adresse e-mail :
       </Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+      />
       <Text style={styles.introText}>Choisissez un mot de passe :</Text>
-      <Link href="/levels" asChild>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Continuez</Text>
-        </TouchableOpacity>
-      </Link>
+      <TextInput
+        style={styles.input}
+        placeholder="Mot de passe"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleContinue}>
+        <Text style={styles.buttonText}>Continuez</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -46,6 +79,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingHorizontal: 30,
     paddingVertical: 10,
+  },
+  input: {
+    fontSize: 20,
+    borderColor: theme.colorBlue,
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 300,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
   button: {
     backgroundColor: theme.colorRed,
