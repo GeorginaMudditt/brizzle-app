@@ -1,9 +1,44 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { theme } from "../theme";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
+
+// Asks the user for their first and last name
+// Navigates to the next onboarding screen where username is created from this information
 
 export default function Onboarding2() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const router = useRouter();
+
+  const capitaliseFirstLetter = (string: string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };
+
+  const removePunctuation = (string: string) => {
+    return string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+  };
+
+  const handleContinue = () => {
+    const formattedFirstName = capitaliseFirstLetter(
+      removePunctuation(firstName.trim())
+    );
+    const formattedLastName = capitaliseFirstLetter(
+      removePunctuation(lastName.trim())
+    );
+    router.push({
+      pathname: "/onboarding3",
+      params: { firstName: formattedFirstName, lastName: formattedLastName },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -11,12 +46,22 @@ export default function Onboarding2() {
         style={styles.logoWithName}
       />
       <Text style={styles.introText}>Quel est votre prénom ?</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Prénom"
+        value={firstName}
+        onChangeText={setFirstName}
+      />
       <Text style={styles.introText}>Quel est votre nom de famille ?</Text>
-      <Link href="/onboarding3" asChild>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Continuez</Text>
-        </TouchableOpacity>
-      </Link>
+      <TextInput
+        style={styles.input}
+        placeholder="Nom de famille"
+        value={lastName}
+        onChangeText={setLastName}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleContinue}>
+        <Text style={styles.buttonText}>Continuez</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -41,6 +86,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingHorizontal: 30,
     paddingVertical: 10,
+  },
+  input: {
+    fontSize: 20,
+    borderColor: theme.colorBlue,
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 300,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
   button: {
     backgroundColor: theme.colorRed,

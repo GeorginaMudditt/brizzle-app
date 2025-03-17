@@ -3,6 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { theme } from "../theme";
 import { Link } from "expo-router";
 
+// Asks the user how they heard about Brizzle and stores the information
+// Navigates to the next onboarding screen
+
 export default function Onboarding1() {
   return (
     <View style={styles.container}>
