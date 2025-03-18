@@ -33,7 +33,10 @@ export default function Onboarding4() {
       setEmailError(true);
       return;
     }
-    router.push("/onboarding5");
+    router.push({
+      pathname: "/onboarding5",
+      params: { username },
+    });
   };
 
   return (

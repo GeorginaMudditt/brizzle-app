@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { theme } from "../theme";
-import { Link } from "expo-router";
 import { LevelButtons } from "../components/LevelButtons";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { useLocalSearchParams } from "expo-router";
 
 export default function Levels() {
+  const { username } = useLocalSearchParams();
+
   return (
     <View style={styles.container}>
       <View>
@@ -14,7 +15,7 @@ export default function Levels() {
           style={styles.logoWithName}
         />
         <Text style={[styles.introText, styles.introTextHeader]}>
-          À quel niveau souhaitez-vous vous entraîner, "Name" ?
+          À quel niveau souhaitez-vous vous entraîner, {username} ?
         </Text>
       </View>
       <LevelButtons />

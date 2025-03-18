@@ -7,20 +7,24 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import * as Keychain from "react-native-keychain";
 import { theme } from "../theme";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 // User enters password and confirms password
 
+// TO DO - code is supposedly set up to support strong password suggestions, but need to test on real device
+
 export default function Onboarding5() {
+  const { username } = useLocalSearchParams();
   const router = useRouter();
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [passwordError, setPasswordError] = React.useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = React.useState(false);
 
   const isPasswordValid = (password: string) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
@@ -29,29 +33,39 @@ export default function Onboarding5() {
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
-    setPasswordError("");
-    setConfirmPasswordError("");
+    setPasswordError(!isPasswordValid(text));
+
+    if (confirmPassword) {
+      setConfirmPasswordError(text !== confirmPassword);
+    }
   };
 
   const handleConfirmPasswordChange = (text: string) => {
     setConfirmPassword(text);
-    setConfirmPasswordError("");
+    setConfirmPasswordError(password !== text);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (!isPasswordValid(password)) {
-      setPasswordError(
-        "Le mot de passe doit contenir au moins 8 caractères, un chiffre et un caractère spécial."
-      );
+      setPasswordError(true);
       return;
     }
 
     if (password !== confirmPassword) {
-      setConfirmPasswordError("Les mots de passe ne correspondent pas");
+      setConfirmPasswordError(true);
       return;
     }
 
-    router.push("/levels");
+    const validUsername = Array.isArray(username) ? username[0] : username;
+
+    if (typeof validUsername === "string") {
+      await Keychain.setGenericPassword(validUsername, password);
+    }
+
+    router.push({
+      pathname: "/levels",
+      params: { username },
+    });
   };
 
   const isFormValid = () => {
@@ -72,13 +86,20 @@ export default function Onboarding5() {
           secureTextEntry={!showPassword}
           value={password}
           onChangeText={handlePasswordChange}
+          textContentType="newPassword" // Suggest strong password (iOS)
+          importantForAutofill="yes" // Autofill (Android)
+          autoComplete="password-new" // Autofill for new password (Android)
+          keyboardType="default" // Ensures proper behavior
         />
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
           <Ionicons name={showPassword ? "eye-off" : "eye"} size={24} />
         </TouchableOpacity>
       </View>
-      {passwordError !== "" && (
-        <Text style={styles.errorText}>{passwordError}</Text>
+      {passwordError && (
+        <Text style={styles.errorText}>
+          Le mot de passe doit contenir au moins 8 caractères, avec au moins 1
+          chiffre et 1 caractère spécial
+        </Text>
       )}
       <Text style={styles.introText}>Confirmez votre mot de passe :</Text>
       <View style={styles.passwordContainer}>
@@ -88,6 +109,9 @@ export default function Onboarding5() {
           secureTextEntry={!showConfirmPassword}
           value={confirmPassword}
           onChangeText={handleConfirmPasswordChange}
+          textContentType="newPassword"
+          importantForAutofill="yes"
+          autoComplete="password-new"
         />
         <TouchableOpacity
           onPress={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -95,8 +119,10 @@ export default function Onboarding5() {
           <Ionicons name={showConfirmPassword ? "eye-off" : "eye"} size={24} />
         </TouchableOpacity>
       </View>
-      {confirmPasswordError !== "" && (
-        <Text style={styles.errorText}>{confirmPasswordError}</Text>
+      {confirmPasswordError && (
+        <Text style={styles.errorText}>
+          Les mots de passe ne correspondent pas
+        </Text>
       )}
       <TouchableOpacity
         style={[styles.button, !isFormValid() && styles.buttonDisabled]}
@@ -163,6 +189,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: theme.colorRed,
     textAlign: "center",
+    paddingHorizontal: 30,
   },
   button: {
     backgroundColor: theme.colorBlue,
