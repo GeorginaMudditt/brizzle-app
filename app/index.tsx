@@ -30,9 +30,7 @@ export default function App() {
         </Text>
         <View style={styles.buttonContainer}>
           <Link href="/login" asChild>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Connectez-vous</Text>
-            </TouchableOpacity>
+            <Text style={styles.loginTextLink}>Connectez-vous</Text>
           </Link>
         </View>
       </View>
@@ -65,7 +63,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   button: {
-    backgroundColor: theme.colorRed,
+    backgroundColor: theme.colorBlue,
     paddingHorizontal: 30,
     paddingVertical: 10,
     borderRadius: 5,
@@ -85,6 +83,11 @@ const styles = StyleSheet.create({
   loginText: {
     marginTop: 50,
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 15,
+  },
+  loginTextLink: {
+    textAlign: "center",
+    textDecorationLine: "underline",
+    fontSize: 15,
   },
 });
