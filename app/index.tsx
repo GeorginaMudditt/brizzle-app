@@ -12,7 +12,7 @@ export default function App() {
           style={styles.logoWithName}
         />
         <Text style={[styles.introText, styles.introTextHeader]}>
-          Bienvenue sur Brizzle{" "}
+          Bienvenue sur Brizzle
         </Text>
         <Text style={styles.introText}>
           Une application de vocabulaire où vous pouvez progresser en anglais à
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   },
   introText: {
     textAlign: "center",
+    color: theme.colorBlue,
     fontSize: 30,
     paddingHorizontal: 30,
     paddingVertical: 10,

@@ -16,7 +16,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 // Asks the user how they heard about Brizzle and stores the information
 // Navigates to the next onboarding screen
 
-//UNRESOLVED PROBLEM: If the user types in the "autre" textbox, they have to press the "Continuez" button twice before moving to onboarding2
+//UNRESOLVED ISSUE: If the user types in the "autre" textbox, they have to press the "Continuez" button twice before moving to onboarding2
 
 export default function Onboarding1() {
   const [selectedOption, setSelectedOption] = useState("");

@@ -23,7 +23,7 @@ export default function Onboarding2() {
   };
 
   const removePunctuation = (string: string) => {
-    return string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+    return string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()\s]/g, "");
   };
 
   const handleContinue = () => {
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    backgroundColor: theme.colorRed,
+    backgroundColor: theme.colorBlue,
     paddingHorizontal: 30,
     paddingVertical: 10,
     borderRadius: 5,

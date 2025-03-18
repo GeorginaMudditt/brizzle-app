@@ -5,27 +5,35 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Alert,
   TextInput,
 } from "react-native";
 import { theme } from "../theme";
-import { Link, useLocalSearchParams } from "expo-router";
-import { supabase } from "../supabaseClient";
+import { useLocalSearchParams, useRouter } from "expo-router";
+
+// User enters email address
 
 export default function Onboarding4() {
   const { username } = useLocalSearchParams();
+  const router = useRouter();
   const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [emailError, setEmailError] = React.useState(false);
 
-  const handleContinue = async () => {
-    const { data, error } = await supabase
-      .from("users")
-      .insert([{ username, email, password }]);
-    if (error) {
-      Alert.alert("Erreur", error.message);
-    } else {
-      Alert.alert("Succès", "Utilisateur créé avec succès !");
+  const isEmailValid = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+    setEmailError(false);
+  };
+
+  const handleContinue = () => {
+    if (!isEmailValid(email)) {
+      setEmailError(true);
+      return;
     }
+    router.push("/onboarding5");
   };
 
   return (
@@ -34,7 +42,7 @@ export default function Onboarding4() {
         source={require("../assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
-      <Text style={styles.introText}>Bienvenue, {username} 😊</Text>
+      <Text style={styles.h2}>Bienvenue, {username}</Text>
       <Text style={styles.introText}>
         Veuillez saisir votre adresse e-mail :
       </Text>
@@ -42,16 +50,13 @@ export default function Onboarding4() {
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={handleEmailChange}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
-      <Text style={styles.introText}>Choisissez un mot de passe :</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Mot de passe"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
+      {emailError && (
+        <Text style={styles.errorText}>Adresse e-mail invalide</Text>
+      )}
       <TouchableOpacity style={styles.button} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continuez</Text>
       </TouchableOpacity>
@@ -73,6 +78,11 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginTop: 20,
   },
+  h2: {
+    fontSize: 30,
+    color: theme.colorBlue,
+    margin: 40,
+  },
   introText: {
     textAlign: "center",
     color: theme.colorBlue,
@@ -90,8 +100,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  errorText: {
+    fontSize: 15,
+    color: theme.colorRed,
+    textAlign: "center",
+  },
   button: {
-    backgroundColor: theme.colorRed,
+    backgroundColor: theme.colorBlue,
     paddingHorizontal: 30,
     paddingVertical: 10,
     borderRadius: 5,
@@ -99,6 +114,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  buttonDisabled: {
+    backgroundColor: theme.colorGrey,
   },
   buttonText: {
     color: "white",

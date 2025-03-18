@@ -31,12 +31,9 @@ export default function Onboarding3() {
       <Text style={styles.introText}>
         Ce sera le nom affiché à côté de vos récompenses en anglais !
       </Text>
-      <Text style={styles.introText}>
-        Souhaitez-vous utiliser ce nom d'utilisateur ?
-      </Text>
       <Link href={{ pathname: "/onboarding4", params: { username } }} asChild>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Oui ☑️ Continuez</Text>
+          <Text style={styles.buttonText}>Continuez</Text>
         </TouchableOpacity>
       </Link>
       <Link href="/onboarding3b" asChild>
@@ -75,7 +72,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   button: {
-    backgroundColor: theme.colorRed,
+    backgroundColor: theme.colorBlue,
     paddingHorizontal: 30,
     paddingVertical: 10,
     borderRadius: 5,
@@ -90,7 +87,7 @@ const styles = StyleSheet.create({
   },
   differentUsername: {
     paddingVertical: 30,
-    color: theme.colorBlue,
+    fontSize: 15,
     textAlign: "center",
     textDecorationLine: "underline",
   },

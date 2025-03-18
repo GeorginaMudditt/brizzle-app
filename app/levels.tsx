@@ -8,9 +8,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 export default function Levels() {
   return (
     <View style={styles.container}>
-      <Link href="/" asChild>
-        <Ionicons style={styles.arrowBack} name="arrow-back-circle" />
-      </Link>
       <View>
         <Image
           source={require("../assets/brizzle-insta-square.png")}
