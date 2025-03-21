@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import * as Keychain from "react-native-keychain";
+import * as SecureStore from "expo-secure-store";
 import { theme } from "../theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -59,10 +59,12 @@ export default function Onboarding5() {
     const validUsername = Array.isArray(username) ? username[0] : username;
 
     if (typeof validUsername === "string") {
-      await Keychain.setGenericPassword(validUsername, password);
+      await SecureStore.setItemAsync("username", validUsername);
+      await SecureStore.setItemAsync("password", password);
+      alert("Votre compte a été créé avec succès !");
     }
 
-    router.push({
+    router.replace({
       pathname: "/levels",
       params: { username },
     });
@@ -126,7 +128,9 @@ export default function Onboarding5() {
       )}
       <TouchableOpacity
         style={[styles.button, !isFormValid() && styles.buttonDisabled]}
-        onPress={handleContinue}
+        onPress={() => {
+          handleContinue();
+        }}
         disabled={!isFormValid()}
       >
         <Text style={styles.buttonText}>Continuez</Text>
@@ -141,6 +145,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 50,
+    pointerEvents: "auto",
   },
   logoWithName: {
     width: 180,

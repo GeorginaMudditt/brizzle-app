@@ -26,6 +26,7 @@ export default function Onboarding1() {
   const options = [
     "Carte de visite promotionnelle",
     "Amis ou famille",
+    "Cours avec Georgina",
     "École",
     "Moteur de recherche",
     "Google Play ou Apple Store",
