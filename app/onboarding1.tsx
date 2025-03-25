@@ -7,11 +7,13 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import { theme } from "../theme";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { supabase } from "../lib/supabase";
 
 // Asks the user how they heard about Brizzle and stores the information
 // Navigates to the next onboarding screen
@@ -40,9 +42,34 @@ export default function Onboarding1() {
     return selectedOption !== "";
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     Keyboard.dismiss();
-    router.push("/onboarding2");
+
+    try {
+      // Save the selected option to the Supabase database
+      const { data, error } = await supabase.from("users").insert([
+        {
+          heard_about: selectedOption === "Autre" ? otherText : selectedOption, // Save "Autre" text if selected
+        },
+      ]);
+
+      if (error) {
+        console.error("Error saving data to Supabase:", error.message);
+        Alert.alert(
+          "Erreur",
+          "Une erreur s'est produite lors de l'enregistrement."
+        );
+        return;
+      }
+
+      console.log("Data saved successfully:", data);
+
+      // Navigate to the next onboarding screen
+      router.push("/onboarding2");
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      Alert.alert("Erreur", "Une erreur inattendue s'est produite.");
+    }
   };
 
   return (
