@@ -57,6 +57,15 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     textAlign: "justify",
   },
+  button: {
+    padding: 10,
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
+  },
   pTrophy: {
     lineHeight: 30,
     color: "white",
