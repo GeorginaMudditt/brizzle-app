@@ -6,7 +6,7 @@ export function LevelButtons() {
   return (
     <View>
       <Link
-        href="a1/free-content"
+        href="a1/a1-how-it-works"
         asChild
         style={[styles.button, styles.a1Button]}
       >

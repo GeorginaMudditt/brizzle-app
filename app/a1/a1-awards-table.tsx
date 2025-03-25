@@ -18,13 +18,7 @@ export default function freeContent() {
         />
         <Text style={styles.introTextHeader}>Bienvenue sur Brizzle A1</Text>
       </View>
-      <View>
-        <Text style={styles.p}>
-          Cliquez sur les icônes des sujets à gauche pour accéder à vos défis.
-          Il y a 3 défis pour chaque sujet : "Bronze" (bronze), "Silver"
-          (argent) et "Gold" (or).
-        </Text>
-      </View>
+      <View></View>
       <AwardTable />
     </View>
   );
