@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { Video, ResizeMode } from "expo-av";
 
 // User enters email address
 
@@ -30,6 +24,14 @@ export default function ready() {
       />
       <Text style={styles.h2}>OK, {username}</Text>
       <Text style={styles.introText}>Let's learn English together!</Text>
+      <Video
+        source={require("../assets/podium.mp4")}
+        style={styles.video}
+        useNativeControls={false} // Disable controls
+        resizeMode={ResizeMode.CONTAIN}
+        isLooping={true} // Loop the video
+        shouldPlay={true} // Auto-play the video
+      />
       <TouchableOpacity style={styles.button} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continuez</Text>
       </TouchableOpacity>
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
   h2: {
     fontSize: 30,
     color: theme.colorBlue,
-    margin: 40,
+    margin: 30,
   },
   introText: {
     textAlign: "center",
@@ -63,20 +65,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 10,
   },
-  input: {
-    fontSize: 20,
-    borderColor: theme.colorBlue,
-    borderWidth: 1,
-    borderRadius: 5,
+  video: {
     width: 300,
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  errorText: {
-    fontSize: 15,
-    color: theme.colorRed,
-    textAlign: "center",
+    height: 300,
   },
   button: {
     backgroundColor: theme.colorBlue,
@@ -87,9 +78,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
-  },
-  buttonDisabled: {
-    backgroundColor: theme.colorGrey,
   },
   buttonText: {
     color: "white",

@@ -9,15 +9,16 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { theme } from "../theme";
-import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 // Asks the user how they heard about the app
 
 //UNRESOLVED ISSUE: If the user types in the "autre" textbox, they have to press the "Continuez" button twice before moving to onboarding2
 
 export default function heard_about() {
+  const { username } = useLocalSearchParams();
   const [selectedOption, setSelectedOption] = useState("");
   const [otherText, setOtherText] = useState("");
   const router = useRouter();
@@ -39,9 +40,11 @@ export default function heard_about() {
     return selectedOption !== "";
   };
 
-  const handleContinue = async () => {
-    Keyboard.dismiss();
-    router.push("/ready");
+  const handleContinue = () => {
+    router.push({
+      pathname: "/ready",
+      params: { username },
+    });
   };
 
   return (
