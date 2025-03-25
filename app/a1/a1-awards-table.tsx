@@ -5,7 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link } from "expo-router";
 import AwardTable from "../../components/AwardTable";
 
-export default function freeContent() {
+export default function AwardsTable() {
   return (
     <View style={styles.container}>
       <Link href="/levels" asChild>

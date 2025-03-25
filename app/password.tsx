@@ -16,7 +16,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 
 // TO DO - code is supposedly set up to support strong password suggestions, but need to test on real device
 
-export default function password() {
+export default function Password() {
   const { username } = useLocalSearchParams();
   const router = useRouter();
   const [password, setPassword] = React.useState("");

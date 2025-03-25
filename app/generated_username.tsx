@@ -6,7 +6,7 @@ import { Link, useLocalSearchParams } from "expo-router";
 // Shows the user the username that was generated for them
 // Gives them the option to use it or create a new one
 
-export default function generated_username() {
+export default function GeneratedUsername() {
   const { firstName, lastName } = useLocalSearchParams() as {
     firstName: string;
     lastName: string;

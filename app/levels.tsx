@@ -19,6 +19,9 @@ export default function Levels() {
         </Text>
       </View>
       <LevelButtons />
+      <Text style={styles.cecrLevels}>
+        Plus d'informations sur les niveaux du CECR de A1 à C2
+      </Text>
     </View>
   );
 }
@@ -52,5 +55,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingHorizontal: 30,
     paddingVertical: 10,
+  },
+  cecrLevels: {
+    paddingVertical: 30,
+    fontSize: 15,
+    textAlign: "center",
+    textDecorationLine: "underline",
   },
 });

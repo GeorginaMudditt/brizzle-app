@@ -12,7 +12,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 
 // User enters email address
 
-export default function email_address() {
+export default function EmailAddress() {
   const { username } = useLocalSearchParams();
   const router = useRouter();
   const [email, setEmail] = React.useState("");

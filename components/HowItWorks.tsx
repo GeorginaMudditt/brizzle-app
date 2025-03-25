@@ -6,7 +6,6 @@ import { Link } from "expo-router";
 export function HowItWorks() {
   return (
     <View style={styles.container}>
-      <Text style={styles.h2}>À propos de l'application</Text>
       <Text style={styles.p}>
         Il y a 6 niveaux en accord avec le Cadre européen commun de référence
         pour les langues (CECR) : A1, A2, B1, B2, C1 et C2.
@@ -28,11 +27,6 @@ export function HowItWorks() {
         <Entypo style={styles.goldTrophy} name="trophy" /> Défi or : Écrire les
         mots
       </Text>
-      <Link href="/levels" asChild>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Allons-y !</Text>
-        </TouchableOpacity>
-      </Link>
     </View>
   );
 }

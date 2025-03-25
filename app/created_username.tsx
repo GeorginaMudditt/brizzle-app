@@ -14,7 +14,7 @@ import { useRouter } from "expo-router";
 // Username is checked against other usernames in the database
 // Navigates to the next onboarding screen
 
-export default function created_username() {
+export default function CreatedUsername() {
   const [username, setUsername] = useState("");
   const router = useRouter();
 

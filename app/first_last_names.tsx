@@ -13,7 +13,7 @@ import { useRouter } from "expo-router";
 // Asks the user for their first and last name
 // Navigates to the next onboarding screen where username is created from this information
 
-export default function first_last_names() {
+export default function FirstLastNames() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const router = useRouter();

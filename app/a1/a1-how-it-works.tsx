@@ -2,8 +2,9 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../../theme";
 import { Link } from "expo-router";
+import { HowItWorks } from "../../components/HowItWorks";
 
-export default function a1_how_it_works() {
+export default function A1HowItWorks() {
   return (
     <View style={styles.container}>
       <View style={styles.howItWorksHeader}>
@@ -13,7 +14,8 @@ export default function a1_how_it_works() {
         />
         <Text style={styles.introTextHeader}>Brizzle A1</Text>
       </View>
-      <Text style={styles.p}>Comment ça marche ?</Text>
+      <Text style={styles.h2}>Comment ça marche ?</Text>
+      <HowItWorks />
       <Text style={styles.p}>
         Cliquez sur les icônes des sujets à gauche pour accéder à vos défis. Il
         y a 3 défis pour chaque sujet : "Bronze" (bronze), "Silver" (argent) et
@@ -51,6 +53,11 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     borderRadius: 5,
+  },
+  h2: {
+    fontSize: 30,
+    color: theme.colorBlue,
+    margin: 40,
   },
   p: {
     fontSize: 16,

@@ -6,7 +6,7 @@ import { Video, ResizeMode } from "expo-av";
 
 // User enters email address
 
-export default function ready() {
+export default function Ready() {
   const { username } = useLocalSearchParams();
   const router = useRouter();
   const handleContinue = () => {
