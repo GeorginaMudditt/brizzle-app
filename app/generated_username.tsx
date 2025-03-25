@@ -5,9 +5,8 @@ import { Link, useLocalSearchParams } from "expo-router";
 
 // Shows the user the username that was generated for them
 // Gives them the option to use it or create a new one
-// Navigates to the next onboarding screen
 
-export default function Onboarding3() {
+export default function generated_username() {
   const { firstName, lastName } = useLocalSearchParams() as {
     firstName: string;
     lastName: string;
@@ -31,12 +30,12 @@ export default function Onboarding3() {
       <Text style={styles.introText}>
         Ce sera le nom affiché à côté de vos récompenses en anglais !
       </Text>
-      <Link href={{ pathname: "/onboarding4", params: { username } }} asChild>
+      <Link href={{ pathname: "/email_address", params: { username } }} asChild>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Continuez</Text>
         </TouchableOpacity>
       </Link>
-      <Link href="/onboarding3b" asChild>
+      <Link href="/created_username" asChild>
         <Text style={styles.differentUsername}>
           Choisissez un nom d'utilisateur différent
         </Text>

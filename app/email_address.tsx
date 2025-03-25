@@ -12,7 +12,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 
 // User enters email address
 
-export default function Onboarding4() {
+export default function email_address() {
   const { username } = useLocalSearchParams();
   const router = useRouter();
   const [email, setEmail] = React.useState("");
@@ -34,7 +34,7 @@ export default function Onboarding4() {
       return;
     }
     router.push({
-      pathname: "/onboarding5",
+      pathname: "/heard_about",
       params: { username },
     });
   };

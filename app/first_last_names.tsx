@@ -13,7 +13,7 @@ import { useRouter } from "expo-router";
 // Asks the user for their first and last name
 // Navigates to the next onboarding screen where username is created from this information
 
-export default function Onboarding2() {
+export default function first_last_names() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function Onboarding2() {
       removePunctuation(lastName.trim())
     );
     router.push({
-      pathname: "/onboarding3",
+      pathname: "/generated_username",
       params: { firstName: formattedFirstName, lastName: formattedLastName },
     });
   };

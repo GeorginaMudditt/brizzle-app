@@ -15,7 +15,7 @@ export default function Levels() {
           style={styles.logoWithName}
         />
         <Text style={[styles.introText, styles.introTextHeader]}>
-          À quel niveau souhaitez-vous vous entraîner, {username} ?
+          À quel niveau souhaitez-vous vous entraîner ?
         </Text>
       </View>
       <LevelButtons />

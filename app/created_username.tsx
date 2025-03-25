@@ -14,7 +14,7 @@ import { useRouter } from "expo-router";
 // Username is checked against other usernames in the database
 // Navigates to the next onboarding screen
 
-export default function Onboarding3b() {
+export default function created_username() {
   const [username, setUsername] = useState("");
   const router = useRouter();
 
@@ -43,7 +43,7 @@ export default function Onboarding3b() {
 
   const handleContinue = () => {
     router.push({
-      pathname: "/onboarding4",
+      pathname: "/email_address",
       params: { username },
     });
   };

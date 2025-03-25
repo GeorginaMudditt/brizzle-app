@@ -7,20 +7,17 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
-  Alert,
 } from "react-native";
 import { theme } from "../theme";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { supabase } from "../lib/supabase";
 
-// Asks the user how they heard about Brizzle and stores the information
-// Navigates to the next onboarding screen
+// Asks the user how they heard about the app
 
 //UNRESOLVED ISSUE: If the user types in the "autre" textbox, they have to press the "Continuez" button twice before moving to onboarding2
 
-export default function Onboarding1() {
+export default function heard_about() {
   const [selectedOption, setSelectedOption] = useState("");
   const [otherText, setOtherText] = useState("");
   const router = useRouter();
@@ -44,32 +41,7 @@ export default function Onboarding1() {
 
   const handleContinue = async () => {
     Keyboard.dismiss();
-
-    try {
-      // Save the selected option to the Supabase database
-      const { data, error } = await supabase.from("users").insert([
-        {
-          heard_about: selectedOption === "Autre" ? otherText : selectedOption, // Save "Autre" text if selected
-        },
-      ]);
-
-      if (error) {
-        console.error("Error saving data to Supabase:", error.message);
-        Alert.alert(
-          "Erreur",
-          "Une erreur s'est produite lors de l'enregistrement."
-        );
-        return;
-      }
-
-      console.log("Data saved successfully:", data);
-
-      // Navigate to the next onboarding screen
-      router.push("/onboarding2");
-    } catch (error) {
-      console.error("Unexpected error:", error);
-      Alert.alert("Erreur", "Une erreur inattendue s'est produite.");
-    }
+    router.push("/ready");
   };
 
   return (
@@ -84,7 +56,7 @@ export default function Onboarding1() {
           style={styles.logoWithName}
         />
         <Text style={styles.introText}>
-          Comment avez-vous entendu parler de Brizzle ?
+          Une dernière question. Comment avez-vous entendu parler de Brizzle ?
         </Text>
         {options.map((option) => (
           <TouchableOpacity

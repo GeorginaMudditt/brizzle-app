@@ -3,6 +3,9 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../theme";
 import { Link } from "expo-router";
 
+// Welcome screen for the app
+// Offers user the options to get started with onboarding or to log in
+
 export default function App() {
   return (
     <View style={styles.container}>
@@ -19,7 +22,7 @@ export default function App() {
           votre rythme et en vous amusant !
         </Text>
         <View style={styles.buttonContainer}>
-          <Link href="/onboarding1" asChild>
+          <Link href="/first_last_names" asChild>
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonText}>Allons-y !</Text>
             </TouchableOpacity>
