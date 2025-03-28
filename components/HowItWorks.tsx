@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { theme } from "../theme";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Link } from "expo-router";
@@ -7,13 +7,18 @@ export function HowItWorks() {
   return (
     <View style={styles.container}>
       <Text style={styles.p}>
-        Il y a 6 niveaux en accord avec le Cadre européen commun de référence
-        pour les langues (CECR) : A1, A2, B1, B2, C1 et C2.
+        Pour chaque niveau (A1-C2), il y a au moins 20 thèmes différents, et
+        vous verrez une icône pour chaque théme à gauche de votre tableau des
+        récompenses. Par exemple, pour la catégorie "nourriture", vous pourriez
+        voir{" "}
+        <Image
+          source={require("../assets/apple-original.png")}
+          style={styles.icon}
+        />
+        .
       </Text>
       <Text style={styles.p}>
-        Pour chaque niveau, il y a au moins 20 thèmes différents (par exemple,
-        "nourriture" ou "verbes"), et chaque thème comprend 3 défis pour
-        apprendre le vocabulaire :
+        Chaque thème comprend 3 défis pour apprendre le vocabulaire :
       </Text>
       <Text style={styles.pTrophy}>
         <Entypo style={styles.bronzeTrophy} name="trophy" /> Défi bronze : Lire
@@ -27,34 +32,51 @@ export function HowItWorks() {
         <Entypo style={styles.goldTrophy} name="trophy" /> Défi or : Écrire les
         mots
       </Text>
+      <Text style={styles.p}>
+        Lorsque vous aurez réussi chaque défi, une autre icône apparaîtra sur
+        votre tableau des récompenses. Par exemple, lorsque vous aurez complété
+        les défis bronze, argent et or pour la catégorie "nourriture", vous
+        verrez{" "}
+        <Image
+          source={require("../assets/apple-bronze.png")}
+          style={styles.icon}
+        />
+        <Image
+          source={require("../assets/apple-silver.png")}
+          style={styles.icon}
+        />
+        <Image
+          source={require("../assets/apple-gold.png")}
+          style={styles.icon}
+        />
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colorBlue,
-    padding: 20,
-    margin: 20,
-    borderRadius: 10,
+    padding: 30,
   },
   h2: {
     fontSize: 20,
-    color: "white",
-    marginTop: 10,
-    marginBottom: 10,
     textAlign: "center",
   },
   p: {
-    fontSize: 15,
-    color: "white",
+    color: theme.colorBlue,
+    fontSize: 16,
     lineHeight: 30,
     textAlign: "justify",
+    marginTop: 10,
+  },
+  icon: {
+    fontSize: 10,
+    width: 20,
+    height: 20,
   },
   button: {
     padding: 10,
     borderRadius: 5,
-    marginVertical: 10,
   },
   buttonText: {
     color: "white",
@@ -62,9 +84,9 @@ const styles = StyleSheet.create({
   },
   pTrophy: {
     lineHeight: 30,
-    color: "white",
-    fontSize: 15,
+    fontSize: 16,
     textAlign: "justify",
+    color: theme.colorBlue,
   },
   bronzeTrophy: {
     fontSize: 20,

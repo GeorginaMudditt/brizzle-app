@@ -1,11 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../theme";
-import { LevelButtons } from "../components/LevelButtons";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
+
+// User selects level
 
 export default function Levels() {
   const { username } = useLocalSearchParams();
+  const router = useRouter();
+
+  const handleContinue = () => {
+    router.push({
+      pathname: "/a1/a1-how-it-works",
+      params: { username },
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -15,10 +24,45 @@ export default function Levels() {
           style={styles.logoWithName}
         />
         <Text style={[styles.introText, styles.introTextHeader]}>
-          À quel niveau souhaitez-vous vous entraîner ?
+          À quel niveau souhaitez-vous vous entraîner, {username}?
         </Text>
       </View>
-      <LevelButtons />
+      <TouchableOpacity
+        style={[styles.button, styles.a1Button]}
+        onPress={handleContinue}
+      >
+        <Text style={styles.buttonText}>A1 : Débutant</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.a2Button]}
+        onPress={handleContinue}
+      >
+        <Text style={styles.buttonText}>A1 : Débutant</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.b1Button]}
+        onPress={handleContinue}
+      >
+        <Text style={styles.buttonText}>A1 : Débutant</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.b2Button]}
+        onPress={handleContinue}
+      >
+        <Text style={styles.buttonText}>A1 : Débutant</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.c1Button]}
+        onPress={handleContinue}
+      >
+        <Text style={styles.buttonText}>A1 : Débutant</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.c2Button]}
+        onPress={handleContinue}
+      >
+        <Text style={styles.buttonText}>A1 : Débutant</Text>
+      </TouchableOpacity>
       <Text style={styles.cecrLevels}>
         Plus d'informations sur les niveaux du CECR de A1 à C2
       </Text>
@@ -31,13 +75,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  arrowBack: {
-    fontSize: 40,
-    color: theme.colorBlue,
-    position: "absolute",
-    top: 20,
-    left: 20,
   },
   logoWithName: {
     width: 180,
@@ -55,6 +92,33 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingHorizontal: 30,
     paddingVertical: 10,
+  },
+  button: {
+    padding: 10,
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
+  },
+  a1Button: {
+    backgroundColor: theme.colorA1,
+  },
+  a2Button: {
+    backgroundColor: theme.colorA2,
+  },
+  b1Button: {
+    backgroundColor: theme.colorB1,
+  },
+  b2Button: {
+    backgroundColor: theme.colorB2,
+  },
+  c1Button: {
+    backgroundColor: theme.colorC1,
+  },
+  c2Button: {
+    backgroundColor: theme.colorC2,
   },
   cecrLevels: {
     paddingVertical: 30,

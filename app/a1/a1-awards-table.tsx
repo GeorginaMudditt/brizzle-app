@@ -1,24 +1,26 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { theme } from "../../theme";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link } from "expo-router";
 import AwardTable from "../../components/AwardTable";
 
 export default function AwardsTable() {
   return (
     <View style={styles.container}>
-      <Link href="/levels" asChild>
-        <Ionicons style={styles.arrowBack} name="arrow-back-circle" />
-      </Link>
-      <View>
+      <View style={styles.awardsHeader}>
         <Image
-          source={require("../../assets/brizzle-fb-cover.png")}
-          style={styles.landscapeLogoWithName}
+          source={require("../../assets/brizzle-icon.png")}
+          style={styles.balloonCircleLogo}
         />
-        <Text style={styles.introTextHeader}>Bienvenue sur Brizzle A1</Text>
+        <Text style={styles.introTextHeader}>Brizzle A1</Text>
       </View>
-      <View></View>
+      <Text style={styles.h2}>Récompenses de XXX</Text>
+      <View style={styles.tableHeader}>
+        <Text style={styles.tableHeaderText}>Topic</Text>
+        <Text style={styles.tableHeaderText}>Bronze</Text>
+        <Text style={styles.tableHeaderText}>Silver</Text>
+        <Text style={styles.tableHeaderText}>Gold</Text>
+      </View>
       <AwardTable />
     </View>
   );
@@ -30,30 +32,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  arrowBack: {
-    fontSize: 40,
-    color: theme.colorBlue,
-    position: "absolute",
-    top: 20,
-    left: 20,
+  balloonCircleLogo: {
+    width: 100,
+    height: 100,
   },
-  landscapeLogoWithName: {
-    width: 200,
-    height: 75,
-    alignSelf: "center",
+  awardsHeader: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-  introTextHeader: {
+  tableHeader: {
     backgroundColor: theme.colorA1,
-    fontSize: 20,
-    color: "white",
-    textAlign: "center",
-    padding: 10,
-    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "90%",
     borderRadius: 5,
   },
-  p: {
+  tableHeaderText: {
+    color: "white",
     fontSize: 16,
     padding: 10,
+  },
+  introTextHeader: {
+    color: theme.colorA1,
+    fontSize: 30,
+  },
+  h2: {
+    fontSize: 30,
+    color: theme.colorBlue,
+    marginTop: 20,
     textAlign: "center",
   },
 });
