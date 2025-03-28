@@ -9,9 +9,9 @@ export default function Levels() {
   const { username } = useLocalSearchParams();
   const router = useRouter();
 
-  const handleContinue = () => {
+  const handleContinue = (pathname: string) => {
     router.push({
-      pathname: "/a1/a1-how-it-works",
+      pathname,
       params: { username },
     });
   };
@@ -29,39 +29,39 @@ export default function Levels() {
       </View>
       <TouchableOpacity
         style={[styles.button, styles.a1Button]}
-        onPress={handleContinue}
+        onPress={() => handleContinue("/a1/a1-how-it-works")}
       >
         <Text style={styles.buttonText}>A1 : Débutant</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, styles.a2Button]}
-        onPress={handleContinue}
+        onPress={() => handleContinue("/a2/free-content")}
       >
-        <Text style={styles.buttonText}>A1 : Débutant</Text>
+        <Text style={styles.buttonText}>A2 : Élémentaire</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, styles.b1Button]}
-        onPress={handleContinue}
+        onPress={() => handleContinue("/b1/free-content")}
       >
-        <Text style={styles.buttonText}>A1 : Débutant</Text>
+        <Text style={styles.buttonText}>B1 : Intermédiaire</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, styles.b2Button]}
-        onPress={handleContinue}
+        onPress={() => handleContinue("/b2/free-content")}
       >
-        <Text style={styles.buttonText}>A1 : Débutant</Text>
+        <Text style={styles.buttonText}>B2 : Intermédiaire Plus</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, styles.c1Button]}
-        onPress={handleContinue}
+        onPress={() => handleContinue("/c1/free-content")}
       >
-        <Text style={styles.buttonText}>A1 : Débutant</Text>
+        <Text style={styles.buttonText}>C1 : Avancé</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, styles.c2Button]}
-        onPress={handleContinue}
+        onPress={() => handleContinue("/c2/free-content")}
       >
-        <Text style={styles.buttonText}>A1 : Débutant</Text>
+        <Text style={styles.buttonText}>C2 : Expert</Text>
       </TouchableOpacity>
       <Text style={styles.cecrLevels}>
         Plus d'informations sur les niveaux du CECR de A1 à C2
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   button: {
+    width: 250,
     padding: 10,
     borderRadius: 5,
     marginVertical: 10,

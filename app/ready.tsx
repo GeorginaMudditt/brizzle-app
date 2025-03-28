@@ -27,10 +27,9 @@ export default function Ready() {
       <Video
         source={require("../assets/podium.mp4")}
         style={styles.video}
-        useNativeControls={false} // Disable controls
         resizeMode={ResizeMode.CONTAIN}
-        isLooping={true} // Loop the video
-        shouldPlay={true} // Auto-play the video
+        isLooping={true}
+        shouldPlay={true}
       />
       <TouchableOpacity style={styles.button} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continuez</Text>

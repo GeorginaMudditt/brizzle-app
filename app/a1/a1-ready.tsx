@@ -1,10 +1,22 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../../theme";
-import { Link } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Video, ResizeMode } from "expo-av";
 
+// User is asked if they are ready to start the game
+
 export default function A1Ready() {
+  const { username } = useLocalSearchParams();
+  const router = useRouter();
+
+  const handleContinue = () => {
+    router.push({
+      pathname: "/a1-awards-table",
+      params: { username },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.howItWorksHeader}>
@@ -18,20 +30,17 @@ export default function A1Ready() {
         L'objectif est de collecter toutes les icônes et de remplir votre
         tableau des récompenses.
       </Text>
-      <Text style={styles.h2}>Êtes-vous prêt ?</Text>
+      <Text style={styles.h2}>Êtes-vous prêt, {username} ?</Text>
       <Video
         source={require("../../assets/thumbs-up.mp4")}
         style={styles.video}
-        useNativeControls={false} // Disable controls
         resizeMode={ResizeMode.CONTAIN}
-        isLooping={true} // Loop the video
-        shouldPlay={true} // Auto-play the video
+        isLooping={true}
+        shouldPlay={true}
       />
-      <Link href="a1/a1-awards-table" asChild>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Continuez</Text>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity style={styles.button} onPress={handleContinue}>
+        <Text style={styles.buttonText}>Continuez</Text>
+      </TouchableOpacity>
     </View>
   );
 }

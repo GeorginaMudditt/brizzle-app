@@ -1,12 +1,22 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../../theme";
-import { Link, useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { HowItWorks } from "../../components/HowItWorks";
 
 // User is given instructions on how to use the app
 
 export default function A1HowItWorks() {
+  const { username } = useLocalSearchParams();
+  const router = useRouter();
+
+  const handleContinue = () => {
+    router.push({
+      pathname: "/a1-ready",
+      params: { username },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.howItWorksHeader}>
@@ -18,11 +28,9 @@ export default function A1HowItWorks() {
       </View>
       <Text style={styles.h2}>Comment ça marche ?</Text>
       <HowItWorks />
-      <Link href="a1/a1-ready" asChild>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Continuez</Text>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity style={styles.button} onPress={handleContinue}>
+        <Text style={styles.buttonText}>Continuez</Text>
+      </TouchableOpacity>
     </View>
   );
 }
