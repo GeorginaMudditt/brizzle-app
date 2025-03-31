@@ -26,7 +26,7 @@ export default function A1HowItWorks() {
         />
         <Text style={styles.introTextHeader}>Brizzle A1</Text>
       </View>
-      <Text style={styles.h2}>Comment ça marche, ?</Text>
+      <Text style={styles.h2}>Comment ça marche ?</Text>
       <HowItWorks />
       <TouchableOpacity style={styles.button} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continuez</Text>

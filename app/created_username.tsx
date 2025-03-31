@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { theme } from "../theme";
 import { useRouter } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Link } from "expo-router";
 
 // User can create a different username
 // Username is checked against other usernames in the database
@@ -50,6 +52,7 @@ export default function CreatedUsername() {
 
   return (
     <View style={styles.container}>
+      <Ionicons style={styles.arrowBack} name="arrow-back-circle" />
       <Image
         source={require("../assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
@@ -96,6 +99,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 50,
+  },
+  arrowBack: {
+    fontSize: 40,
+    color: theme.colorBlue,
+    position: "absolute",
+    top: 20,
+    left: 20,
   },
   logoWithName: {
     width: 180,
