@@ -1,12 +1,30 @@
-import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { theme } from "../../theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import AwardTable from "../../components/AwardTable";
+import { supabase } from "../../lib/supabase";
 
 export default function AwardsTable() {
   const { username } = useLocalSearchParams();
+  const [icons, setIcons] = useState<string[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchIcons = async () => {
+      const { data, error } = await supabase
+        .from("Brizzle_A1_icons")
+        .select("icon");
+
+      if (error) {
+        console.error("Error fetching icons:", error);
+        return;
+      } else {
+        setIcons(data.map((row) => row.icon));
+      }
+    };
+
+    fetchIcons();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -24,7 +42,13 @@ export default function AwardsTable() {
         <Text style={styles.tableHeaderText}>Silver</Text>
         <Text style={styles.tableHeaderText}>Gold</Text>
       </View>
-      <AwardTable />
+      <ScrollView style={styles.scrollView}>
+        {icons.map((iconUrl, index) => (
+          <View key={index} style={styles.iconRow}>
+            <Image source={{ uri: iconUrl }} style={styles.icon} />
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -65,5 +89,17 @@ const styles = StyleSheet.create({
     color: theme.colorBlue,
     marginTop: 20,
     textAlign: "center",
+  },
+  scrollView: {
+    width: "90%",
+    marginTop: 20,
+  },
+  iconRow: {
+    marginBottom: 10,
+    alignItems: "center",
+  },
+  icon: {
+    width: 50,
+    height: 50,
   },
 });
