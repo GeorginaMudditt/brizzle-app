@@ -30,7 +30,7 @@ export default function A1Ready() {
         L'objectif est de collecter toutes les icônes et de remplir votre
         tableau des récompenses.
       </Text>
-      <Text style={styles.h2}>Êtes-vous prêt, {username} ?</Text>
+      <Text style={styles.h2}>Allons-y, {username} ?</Text>
       <Video
         source={require("../../assets/Ready.mp4")}
         style={styles.video}

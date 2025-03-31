@@ -11,11 +11,12 @@ export default function GeneratedUsername() {
     firstName: string;
     lastName: string;
   };
-  const username = `${firstName}_${lastName
+
+  const username = `${firstName}_${lastName}`
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/\s+/g, "")
-    .replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ0-9_-]/g, "")}`;
+    .replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ0-9_-]/g, "");
 
   return (
     <View style={styles.container}>
@@ -35,7 +36,13 @@ export default function GeneratedUsername() {
           <Text style={styles.buttonText}>Continuez</Text>
         </TouchableOpacity>
       </Link>
-      <Link href="/created_username" asChild>
+      <Link
+        href={{
+          pathname: "/created_username",
+          params: { firstName, lastName },
+        }}
+        asChild
+      >
         <Text style={styles.differentUsername}>
           Choisissez un nom d'utilisateur différent
         </Text>

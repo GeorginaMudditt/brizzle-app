@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../theme";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter, Link } from "expo-router";
 
 // User selects level
 
@@ -63,9 +63,11 @@ export default function Levels() {
       >
         <Text style={styles.buttonText}>C2 : Expert</Text>
       </TouchableOpacity>
-      <Text style={styles.cecrLevels}>
-        Plus d'informations sur les niveaux du CECR de A1 à C2
-      </Text>
+      <Link href="/cecrl" asChild>
+        <Text style={styles.cecrLevels}>
+          Plus d'informations sur les niveaux du CECR de A1 à C2
+        </Text>
+      </Link>
     </View>
   );
 }

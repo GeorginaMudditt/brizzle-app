@@ -8,9 +8,8 @@ import {
   TextInput,
 } from "react-native";
 import { theme } from "../theme";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Link } from "expo-router";
 
 // User can create a different username
 // Username is checked against other usernames in the database
@@ -18,6 +17,10 @@ import { Link } from "expo-router";
 
 export default function CreatedUsername() {
   const [username, setUsername] = useState("");
+  const { firstName, lastName } = useLocalSearchParams() as {
+    firstName: string;
+    lastName: string;
+  };
   const router = useRouter();
 
   const offensivePattern =
@@ -52,7 +55,16 @@ export default function CreatedUsername() {
 
   return (
     <View style={styles.container}>
-      <Ionicons style={styles.arrowBack} name="arrow-back-circle" />
+      <Ionicons
+        style={styles.arrowBack}
+        name="arrow-back-circle"
+        onPress={() =>
+          router.push({
+            pathname: "/generated_username",
+            params: { firstName, lastName },
+          })
+        }
+      />
       <Image
         source={require("../assets/brizzle-insta-square.png")}
         style={styles.logoWithName}

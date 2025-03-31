@@ -7,10 +7,12 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Touchable,
 } from "react-native";
 import { theme } from "../theme";
 import * as SecureStore from "expo-secure-store";
-import { useRouter } from "expo-router";
+import { useRouter, Link } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function Login() {
   const router = useRouter();
@@ -46,6 +48,9 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
+      <Link href="/" asChild>
+        <Ionicons style={styles.arrowBack} name="arrow-back-circle" />
+      </Link>
       <Image
         source={require("../assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
@@ -86,6 +91,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
+  },
+  arrowBack: {
+    fontSize: 40,
+    color: theme.colorBlue,
+    position: "absolute",
+    top: 20,
+    left: 20,
   },
   logoWithName: {
     width: 180,
