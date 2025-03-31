@@ -12,7 +12,7 @@ export default function A1Ready() {
 
   const handleContinue = () => {
     router.push({
-      pathname: "/a1-awards-table",
+      pathname: "/a1/a1-awards-table",
       params: { username },
     });
   };
@@ -32,7 +32,7 @@ export default function A1Ready() {
       </Text>
       <Text style={styles.h2}>Êtes-vous prêt, {username} ?</Text>
       <Video
-        source={require("../../assets/thumbs-up.mp4")}
+        source={require("../../assets/Ready.mp4")}
         style={styles.video}
         resizeMode={ResizeMode.CONTAIN}
         isLooping={true}

@@ -1,10 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { theme } from "../../theme";
-import { Link } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import AwardTable from "../../components/AwardTable";
 
 export default function AwardsTable() {
+  const { username } = useLocalSearchParams();
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
       <View style={styles.awardsHeader}>
@@ -14,7 +17,7 @@ export default function AwardsTable() {
         />
         <Text style={styles.introTextHeader}>Brizzle A1</Text>
       </View>
-      <Text style={styles.h2}>Récompenses de XXX</Text>
+      <Text style={styles.h2}>Récompenses de {username}</Text>
       <View style={styles.tableHeader}>
         <Text style={styles.tableHeaderText}>Topic</Text>
         <Text style={styles.tableHeaderText}>Bronze</Text>
