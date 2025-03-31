@@ -4,23 +4,31 @@ import { theme } from "../../theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { supabase } from "../../lib/supabase";
 
+interface IconRow {
+  icon: string;
+}
+
 export default function AwardsTable() {
   const { username } = useLocalSearchParams();
   const [icons, setIcons] = useState<string[]>([]);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchIcons = async () => {
-      const { data, error } = await supabase
-        .from("Brizzle_A1_icons")
-        .select("icon");
+      const { data, error } = await supabase.rpc("raw_sql", {
+        sql: `SELECT icon FROM "Brizzle_A1_icons"`,
+      });
 
       if (error) {
         console.error("Error fetching icons:", error);
         return;
-      } else {
-        setIcons(data.map((row) => row.icon));
       }
+
+      console.log("Raw Supabase response:", data);
+      if (data.length === 0) {
+        console.warn("No data returned from Supabase.");
+      }
+
+      setIcons(data.map((row: IconRow) => row.icon));
     };
 
     fetchIcons();
@@ -43,11 +51,15 @@ export default function AwardsTable() {
         <Text style={styles.tableHeaderText}>Gold</Text>
       </View>
       <ScrollView style={styles.scrollView}>
-        {icons.map((iconUrl, index) => (
-          <View key={index} style={styles.iconRow}>
-            <Image source={{ uri: iconUrl }} style={styles.icon} />
-          </View>
-        ))}
+        {icons.length > 0 ? (
+          icons.map((iconUrl, index) => (
+            <View key={index} style={styles.iconRow}>
+              <Image source={{ uri: iconUrl }} style={styles.icon} />
+            </View>
+          ))
+        ) : (
+          <Text style={styles.introTextHeader}>No icons available</Text>
+        )}
       </ScrollView>
     </View>
   );
