@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import { theme } from "../../theme";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { supabase } from "../../lib/supabase";
 
 interface IconRow {
@@ -14,25 +14,45 @@ export default function AwardsTable() {
 
   useEffect(() => {
     const fetchIcons = async () => {
-      const { data, error } = await supabase.rpc("raw_sql", {
-        sql: `SELECT icon FROM "Brizzle_A1_icons"`,
-      });
+      try {
+        const { data, error } = await supabase
+          .from("Brizzle_A1_icons")
+          .select("icon")
+          .order("created_at", { ascending: true });
 
-      if (error) {
-        console.error("Error fetching icons:", error);
-        return;
+        if (error) {
+          console.error("Error fetching icons:", error);
+          return;
+        }
+
+        console.log("Raw Supabase response:", data);
+
+        if (!data || data.length === 0) {
+          console.warn("No data returned from Supabase.");
+        }
+
+        setIcons(data.map((row: IconRow) => row.icon));
+      } catch (err) {
+        console.error("Unexpected error:", err);
       }
-
-      console.log("Raw Supabase response:", data);
-      if (data.length === 0) {
-        console.warn("No data returned from Supabase.");
-      }
-
-      setIcons(data.map((row: IconRow) => row.icon));
     };
 
     fetchIcons();
   }, []);
+
+  const renderRow = ({ item }: { item: string }) => {
+    console.log("Rendering row for icon:", item);
+    return (
+      <View style={styles.row}>
+        <View style={styles.cell}>
+          <Image source={{ uri: item }} style={styles.icon} />
+        </View>
+        <View style={styles.cell} />
+        <View style={styles.cell} />
+        <View style={styles.cell} />
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -43,24 +63,15 @@ export default function AwardsTable() {
         />
         <Text style={styles.introTextHeader}>Brizzle A1</Text>
       </View>
-      <Text style={styles.h2}>Récompenses de {username}</Text>
-      <View style={styles.tableHeader}>
-        <Text style={styles.tableHeaderText}>Topic</Text>
-        <Text style={styles.tableHeaderText}>Bronze</Text>
-        <Text style={styles.tableHeaderText}>Silver</Text>
-        <Text style={styles.tableHeaderText}>Gold</Text>
-      </View>
-      <ScrollView style={styles.scrollView}>
-        {icons.length > 0 ? (
-          icons.map((iconUrl, index) => (
-            <View key={index} style={styles.iconRow}>
-              <Image source={{ uri: iconUrl }} style={styles.icon} />
-            </View>
-          ))
-        ) : (
-          <Text style={styles.introTextHeader}>No icons available</Text>
-        )}
-      </ScrollView>
+      <Text style={styles.h2}>Name : {username}</Text>
+      <Text style={styles.h3}>Progress : Progress bar</Text>
+      <FlatList
+        data={icons}
+        renderItem={renderRow}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.grid}
+      />
+      <Text style={styles.h3}>Share</Text>
     </View>
   );
 }
@@ -80,18 +91,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  tableHeader: {
-    backgroundColor: theme.colorA1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "90%",
-    borderRadius: 5,
-  },
-  tableHeaderText: {
-    color: "white",
-    fontSize: 16,
-    padding: 10,
-  },
   introTextHeader: {
     color: theme.colorA1,
     fontSize: 30,
@@ -102,16 +101,30 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: "center",
   },
-  scrollView: {
-    width: "90%",
-    marginTop: 20,
+  h3: {
+    fontSize: 24,
+    color: theme.colorBlue,
+    margin: 20,
+    textAlign: "center",
   },
-  iconRow: {
-    marginBottom: 10,
+  grid: {
+    width: "80%",
+    marginTop: 20,
+    marginBottom: 20,
+    paddingBottom: 50,
+  },
+  row: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderColor: theme.colorA1,
+    height: 50,
     alignItems: "center",
   },
+  cell: {
+    width: "25%",
+  },
   icon: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
   },
 });
