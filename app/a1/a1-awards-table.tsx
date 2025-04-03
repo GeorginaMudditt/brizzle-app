@@ -52,7 +52,7 @@ export default function AwardsTable() {
         <View style={styles.cell}>
           <Link
             href={{
-              pathname: "/a1/topic-details",
+              pathname: "/a1/a1-topic-details",
               params: { topic: item.topic_page }, // Pass the topic as a parameter
             }}
             style={styles.topicLink}

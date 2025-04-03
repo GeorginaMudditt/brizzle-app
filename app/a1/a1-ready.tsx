@@ -32,7 +32,7 @@ export default function A1Ready() {
       </Text>
       <Text style={styles.h2}>Allons-y, {username} ?</Text>
       <Video
-        source={require("../../assets/Ready.mp4")}
+        source={require("../../assets/Ready-updated.mp4")}
         style={styles.video}
         resizeMode={ResizeMode.CONTAIN}
         isLooping={true}
