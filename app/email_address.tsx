@@ -34,7 +34,7 @@ export default function EmailAddress() {
       return;
     }
     router.push({
-      pathname: "/heard_about",
+      pathname: "/password",
       params: { username },
     });
   };

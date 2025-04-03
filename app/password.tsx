@@ -65,7 +65,7 @@ export default function Password() {
     }
 
     router.replace({
-      pathname: "/levels",
+      pathname: "/heard_about",
       params: { username },
     });
   };

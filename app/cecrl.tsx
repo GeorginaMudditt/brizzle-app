@@ -15,18 +15,18 @@ export default function Cecrl() {
       />
       <Text style={styles.h2}>CECR, Conseil de l'Europe</Text>
       <Text style={styles.introText}>
-        Le Cadre européen commun de référence (CECR) offre une base commune pour
-        l’élaboration de programmes de langues vivantes, de référentiels,
-        d’examens, de manuels, etc. en Europe. Il décrit aussi complètement que
-        possible ce que les apprenants d’une langue doivent apprendre afin de
-        l’utiliser dans le but de communiquer ; il énumère également les
-        connaissances et les habiletés qu’ils doivent acquérir afin d’avoir un
-        comportement langagier efficace. La description englobe aussi le
-        contexte culturel qui soutient la langue. Enfin, le Cadre de référence
-        définit les niveaux de compétence qui permettent de mesurer le progrès
-        de l’apprenant à chaque étape de l’apprentissage et à tout moment de la
-        vie. Les six niveaux de langue sont A1, A2, B1, B2, C1 et C2 (avec A1
-        étant débutant et C2 étant expert).
+        Le Cadre européen commun de référence pour les langues (CECRL) offre une
+        base commune pour l’élaboration de programmes de langues vivantes, de
+        référentiels, d’examens, de manuels, etc. en Europe. Il décrit aussi
+        complètement que possible ce que les apprenants d’une langue doivent
+        apprendre afin de l’utiliser dans le but de communiquer ; il énumère
+        également les connaissances et les habiletés qu’ils doivent acquérir
+        afin d’avoir un comportement langagier efficace. La description englobe
+        aussi le contexte culturel qui soutient la langue. Enfin, le Cadre de
+        référence définit les niveaux de compétence qui permettent de mesurer le
+        progrès de l’apprenant à chaque étape de l’apprentissage et à tout
+        moment de la vie. Les six niveaux de langue sont A1, A2, B1, B2, C1 et
+        C2 (avec A1 étant débutant et C2 étant expert).
       </Text>
     </View>
   );

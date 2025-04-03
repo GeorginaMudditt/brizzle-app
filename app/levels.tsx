@@ -65,7 +65,7 @@ export default function Levels() {
       </TouchableOpacity>
       <Link href="/cecrl" asChild>
         <Text style={styles.cecrLevels}>
-          Plus d'informations sur les niveaux du CECR de A1 à C2
+          Plus d'informations sur les niveaux du CECRL de A1 à C2
         </Text>
       </Link>
     </View>
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colorC2,
   },
   cecrLevels: {
-    paddingVertical: 30,
+    padding: 30,
     fontSize: 15,
     textAlign: "center",
     textDecorationLine: "underline",

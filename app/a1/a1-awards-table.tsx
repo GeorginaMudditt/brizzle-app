@@ -3,21 +3,23 @@ import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import { theme } from "../../theme";
 import { useLocalSearchParams } from "expo-router";
 import { supabase } from "../../lib/supabase";
+import { Link } from "expo-router";
 
 interface IconRow {
   icon: string;
+  topic_page: string;
 }
 
 export default function AwardsTable() {
   const { username } = useLocalSearchParams();
-  const [icons, setIcons] = useState<string[]>([]);
+  const [icons, setIcons] = useState<IconRow[]>([]);
 
   useEffect(() => {
     const fetchIcons = async () => {
       try {
         const { data, error } = await supabase
           .from("Brizzle_A1_icons")
-          .select("icon")
+          .select("icon, topic_page")
           .order("created_at", { ascending: true });
 
         if (error) {
@@ -31,7 +33,7 @@ export default function AwardsTable() {
           console.warn("No data returned from Supabase.");
         }
 
-        setIcons(data.map((row: IconRow) => row.icon));
+        setIcons(data);
       } catch (err) {
         console.error("Unexpected error:", err);
       }
@@ -40,12 +42,23 @@ export default function AwardsTable() {
     fetchIcons();
   }, []);
 
-  const renderRow = ({ item }: { item: string }) => {
-    console.log("Rendering row for icon:", item);
+  const renderRow = ({ item }: { item: IconRow }) => {
+    console.log("Rendering row for icon and topic:", item);
     return (
       <View style={styles.row}>
         <View style={styles.cell}>
-          <Image source={{ uri: item }} style={styles.icon} />
+          <Image source={{ uri: item.icon }} style={styles.icon} />
+        </View>
+        <View style={styles.cell}>
+          <Link
+            href={{
+              pathname: "/a1/topic-details",
+              params: { topic: item.topic_page }, // Pass the topic as a parameter
+            }}
+            style={styles.topicLink}
+          >
+            {item.topic_page}
+          </Link>
         </View>
         <View style={styles.cell} />
         <View style={styles.cell} />
@@ -121,10 +134,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cell: {
-    width: "25%",
+    width: "20%",
   },
   icon: {
     width: 40,
     height: 40,
+  },
+  topicLink: {
+    fontSize: 12,
+    color: theme.colorBlue,
+    textDecorationLine: "underline",
   },
 });
