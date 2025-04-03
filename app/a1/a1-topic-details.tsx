@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../../theme";
-import { useLocalSearchParams, Link } from "expo-router";
+import { useLocalSearchParams, Link, useRouter } from "expo-router";
 import { supabase } from "../../lib/supabase";
 
 interface TopicDetails {
@@ -12,7 +12,8 @@ interface TopicDetails {
 }
 
 export default function TopicDetails() {
-  const { topic } = useLocalSearchParams(); // Get the topic from the navigation params
+  const { topic } = useLocalSearchParams();
+  const router = useRouter();
   const [icons, setIcons] = useState<TopicDetails | null>(null);
 
   useEffect(() => {
@@ -63,7 +64,15 @@ export default function TopicDetails() {
           <Image source={{ uri: icons.icon_gold }} style={styles.icon} />
         </View>
       )}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          router.push({
+            pathname: "/a1/a1-bronze",
+            params: { topic },
+          });
+        }}
+      >
         <Text style={styles.buttonText}>Continuez</Text>
       </TouchableOpacity>
       <Link href="./a1-awards-table" asChild>
