@@ -7,14 +7,10 @@ import { HowItWorks } from "../../components/HowItWorks";
 // User is given instructions on how to use the app
 
 export default function A1HowItWorks() {
-  const { username } = useLocalSearchParams();
   const router = useRouter();
 
   const handleContinue = () => {
-    router.push({
-      pathname: "/a1/a1-ready",
-      params: { username },
-    });
+    router.push("/a1/a1-ready");
   };
 
   return (

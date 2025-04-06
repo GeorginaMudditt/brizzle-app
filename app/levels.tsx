@@ -2,12 +2,15 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../theme";
 import { useLocalSearchParams, useRouter, Link } from "expo-router";
+import { useUser } from "../providers/UserProvider";
 
 // User selects level
 
 export default function Levels() {
-  const { username } = useLocalSearchParams();
+  const { username } = useUser();
   const router = useRouter();
+
+  console.log("username", username);
 
   const handleContinue = (pathname: string) => {
     router.push({

@@ -1,19 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../theme";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { Video, ResizeMode } from "expo-av";
+import { useUser } from "../providers/UserProvider";
 
 // User enters email address
 
 export default function Ready() {
-  const { username } = useLocalSearchParams();
+  const { username } = useUser();
   const router = useRouter();
   const handleContinue = () => {
-    router.push({
-      pathname: "/levels",
-      params: { username },
-    });
+    router.push("/levels");
   };
 
   return (

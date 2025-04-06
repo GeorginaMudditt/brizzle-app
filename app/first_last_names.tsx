@@ -9,22 +9,18 @@ import {
 } from "react-native";
 import { theme } from "../theme";
 import { useRouter } from "expo-router";
+import { capitaliseFirstLetter, removePunctuation } from "../lib/tools";
+import { useUser } from "../providers/UserProvider";
 
 // Asks the user for their first and last name
 // Navigates to the next onboarding screen where username is created from this information
 
 export default function FirstLastNames() {
+  const { setUsername } = useUser();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
   const router = useRouter();
-
-  const capitaliseFirstLetter = (string: string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-  };
-
-  const removePunctuation = (string: string) => {
-    return string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()\s]/g, "");
-  };
 
   const handleContinue = () => {
     const formattedFirstName = capitaliseFirstLetter(
@@ -33,10 +29,16 @@ export default function FirstLastNames() {
     const formattedLastName = capitaliseFirstLetter(
       removePunctuation(lastName.trim())
     );
-    router.push({
-      pathname: "/generated_username",
-      params: { firstName: formattedFirstName, lastName: formattedLastName },
-    });
+
+    const username = `${formattedFirstName}_${formattedLastName}`
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "")
+      .replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ0-9_-]/g, "");
+
+    setUsername(username);
+
+    router.push("/generated_username");
   };
 
   const isFormValid = () => {

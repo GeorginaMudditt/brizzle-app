@@ -10,6 +10,7 @@ import {
 import { theme } from "../theme";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useUser } from "../providers/UserProvider";
 
 // User can create a different username
 // Username is checked against other usernames in the database
@@ -17,10 +18,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function CreatedUsername() {
   const [username, setUsername] = useState("");
-  const { firstName, lastName } = useLocalSearchParams() as {
-    firstName: string;
-    lastName: string;
-  };
+  const { setUsername: setUserUsername } = useUser();
   const router = useRouter();
 
   const offensivePattern =
@@ -47,10 +45,8 @@ export default function CreatedUsername() {
   };
 
   const handleContinue = () => {
-    router.push({
-      pathname: "/email_address",
-      params: { username },
-    });
+    setUserUsername(username);
+    router.push("/email_address");
   };
 
   return (
@@ -58,12 +54,7 @@ export default function CreatedUsername() {
       <Ionicons
         style={styles.arrowBack}
         name="arrow-back-circle"
-        onPress={() =>
-          router.push({
-            pathname: "/generated_username",
-            params: { firstName, lastName },
-          })
-        }
+        onPress={() => router.push("/generated_username")}
       />
       <Image
         source={require("../assets/brizzle-insta-square.png")}

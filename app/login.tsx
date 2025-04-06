@@ -13,8 +13,10 @@ import { theme } from "../theme";
 import * as SecureStore from "expo-secure-store";
 import { useRouter, Link } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useUser } from "../providers/UserProvider";
 
 export default function Login() {
+  const { setUsername } = useUser();
   const router = useRouter();
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -33,6 +35,7 @@ export default function Login() {
         storedUsername === usernameInput &&
         storedPassword === passwordInput
       ) {
+        setUsername(usernameInput);
         router.replace("/levels");
       } else {
         Alert.alert("Nom d'utilisateur ou mot de passe invalide");

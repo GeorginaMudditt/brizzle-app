@@ -4,6 +4,7 @@ import { theme } from "../../theme";
 import { useLocalSearchParams } from "expo-router";
 import { supabase } from "../../lib/supabase";
 import { Link } from "expo-router";
+import { useUser } from "../../providers/UserProvider";
 
 interface IconRow {
   icon: string;
@@ -11,7 +12,7 @@ interface IconRow {
 }
 
 export default function AwardsTable() {
-  const { username } = useLocalSearchParams();
+  const { username } = useUser();
   const [icons, setIcons] = useState<IconRow[]>([]);
 
   useEffect(() => {

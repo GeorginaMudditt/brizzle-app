@@ -18,7 +18,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 //UNRESOLVED ISSUE: If the user types in the "autre" textbox, they have to press the "Continuez" button twice before moving to onboarding2
 
 export default function HeardAbout() {
-  const { username } = useLocalSearchParams();
   const [selectedOption, setSelectedOption] = useState("");
   const [otherText, setOtherText] = useState("");
   const router = useRouter();
@@ -41,10 +40,7 @@ export default function HeardAbout() {
   };
 
   const handleContinue = () => {
-    router.push({
-      pathname: "/ready",
-      params: { username },
-    });
+    router.push("/ready");
   };
 
   return (

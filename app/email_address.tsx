@@ -9,11 +9,12 @@ import {
 } from "react-native";
 import { theme } from "../theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useUser } from "../providers/UserProvider";
 
 // User enters email address
 
 export default function EmailAddress() {
-  const { username } = useLocalSearchParams();
+  const { username } = useUser();
   const router = useRouter();
   const [email, setEmail] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);

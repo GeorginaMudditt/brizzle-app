@@ -3,18 +3,16 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../../theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Video, ResizeMode } from "expo-av";
+import { useUser } from "../../providers/UserProvider";
 
 // User is asked if they are ready to start the game
 
 export default function A1Ready() {
-  const { username } = useLocalSearchParams();
+  const { username } = useUser();
   const router = useRouter();
 
   const handleContinue = () => {
-    router.push({
-      pathname: "/a1/a1-awards-table",
-      params: { username },
-    });
+    router.push("/a1/a1-awards-table");
   };
 
   return (
