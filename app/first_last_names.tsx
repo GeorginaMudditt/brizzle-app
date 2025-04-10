@@ -8,7 +8,6 @@ import {
   TextInput,
 } from "react-native";
 import { theme } from "../theme";
-import { supabase } from "../lib/supabase";
 import { useRouter } from "expo-router";
 import { capitaliseFirstLetter, removePunctuation } from "../lib/tools";
 import { useUser } from "../providers/UserProvider";
@@ -17,13 +16,17 @@ import { useUser } from "../providers/UserProvider";
 // Navigates to the next onboarding screen where username is created from this information
 
 export default function FirstLastNames() {
-  const { setUsername } = useUser();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const {
+    setFirstName: setUserFirstName,
+    setLastName: setUserLastName,
+    setUsername,
+  } = useUser();
+  const [firstName, setLocalFirstName] = useState("");
+  const [lastName, setLocalLastName] = useState("");
 
   const router = useRouter();
 
-  const handleContinue = async () => {
+  const handleContinue = () => {
     const formattedFirstName = capitaliseFirstLetter(
       removePunctuation(firstName.trim())
     );
@@ -37,22 +40,9 @@ export default function FirstLastNames() {
       .replace(/\s+/g, "")
       .replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ0-9_-]/g, "");
 
-    const { data, error } = await supabase.from("users").insert([
-      {
-        first_name: formattedFirstName,
-        last_name: formattedLastName,
-      },
-    ]);
-
-    if (error) {
-      console.error("Error saving names to Supabase:", error.message);
-      return;
-    }
-
-    console.log("Inserted user:", data);
-
+    setUserFirstName(formattedFirstName);
+    setUserLastName(formattedLastName);
     setUsername(username);
-
     router.push("/generated_username");
   };
 
@@ -71,14 +61,14 @@ export default function FirstLastNames() {
         style={styles.input}
         placeholder="Prénom"
         value={firstName}
-        onChangeText={setFirstName}
+        onChangeText={setLocalFirstName}
       />
       <Text style={styles.introText}>Quel est votre nom de famille ?</Text>
       <TextInput
         style={styles.input}
         placeholder="Nom de famille"
         value={lastName}
-        onChangeText={setLastName}
+        onChangeText={setLocalLastName}
       />
       <TouchableOpacity
         style={[styles.button, !isFormValid() && styles.disabledButton]}

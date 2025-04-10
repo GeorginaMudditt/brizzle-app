@@ -8,16 +8,15 @@ import {
   TextInput,
 } from "react-native";
 import { theme } from "../theme";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useUser } from "../providers/UserProvider";
-import { supabase } from "../lib/supabase";
 
 // User enters email address
 
 export default function EmailAddress() {
-  const { username } = useUser();
+  const { username, setEmail } = useUser();
   const router = useRouter();
-  const [email, setEmail] = React.useState("");
+  const [email, setLocalEmail] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);
 
   const isEmailValid = (email: string) => {
@@ -26,30 +25,18 @@ export default function EmailAddress() {
   };
 
   const handleEmailChange = (text: string) => {
-    setEmail(text);
+    setLocalEmail(text);
     setEmailError(false);
   };
 
-  const handleContinue = async () => {
+  const handleContinue = () => {
     if (!isEmailValid(email)) {
       setEmailError(true);
       return;
     }
 
-    const { error } = await supabase
-      .from("users")
-      .update({ email, username })
-      .eq("username", username); // use username to find the right row
-
-    if (error) {
-      console.error("Error updating user email and username:", error.message);
-      return;
-    }
-
-    router.push({
-      pathname: "/age",
-      params: { username },
-    });
+    setEmail(email);
+    router.push("/age");
   };
 
   return (

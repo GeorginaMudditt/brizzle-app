@@ -10,25 +10,28 @@ import {
 import { theme } from "../theme";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
+import { useUser } from "../providers/UserProvider";
 
 // Asks the user how old they are
 
 export default function Age() {
+  const { setAge } = useUser();
   const [selectedOption, setSelectedOption] = useState("");
   const router = useRouter();
 
   const options = [
-    "moins de 8 ans",
-    "de 9 à 11 ans",
-    "de 12 à 14 ans",
-    "de 15 à 17 ans",
-    "de 18 à 25 ans",
+    "Moins de 8 ans",
+    "De 9 à 11 ans",
+    "De 12 à 14 ans",
+    "De 15 à 17 ans",
+    "De 18 à 25 ans",
     "26 ans et plus",
     "Je préfère ne pas dire",
   ];
 
   const handleContinue = () => {
+    setAge(selectedOption);
     router.push("/password");
   };
 

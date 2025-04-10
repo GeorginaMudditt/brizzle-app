@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,14 +10,15 @@ import {
 import * as SecureStore from "expo-secure-store";
 import { theme } from "../theme";
 import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
+import { supabase } from "../lib/supabase";
+import { useUser } from "../providers/UserProvider";
 
 // User enters password and confirms password
 
 // TO DO - code is supposedly set up to support strong password suggestions, but need to test on real device
 
 export default function Password() {
-  const { username } = useLocalSearchParams();
   const router = useRouter();
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
@@ -25,6 +26,24 @@ export default function Password() {
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = React.useState(false);
+
+  const {
+    firstName,
+    lastName,
+    username: contextUsername,
+    email,
+    age,
+  } = useUser();
+
+  useEffect(() => {
+    console.log("UserProvider Data:", {
+      firstName,
+      lastName,
+      username: contextUsername,
+      email,
+      age,
+    });
+  }, [firstName, lastName, contextUsername, email, age]);
 
   const isPasswordValid = (password: string) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
@@ -45,33 +64,87 @@ export default function Password() {
     setConfirmPasswordError(password !== text);
   };
 
-  const handleContinue = async () => {
-    if (!isPasswordValid(password)) {
-      setPasswordError(true);
-      return;
-    }
+  // const handleContinue = async () => {
+  //   if (!isPasswordValid(password)) {
+  //     setPasswordError(true);
+  //     return;
+  //   }
 
-    if (password !== confirmPassword) {
-      setConfirmPasswordError(true);
-      return;
-    }
+  //   if (password !== confirmPassword) {
+  //     setConfirmPasswordError(true);
+  //     return;
+  //   }
 
-    const validUsername = Array.isArray(username) ? username[0] : username;
+  //   try {
+  //     const { data: signUpData, error: signUpError } =
+  //       await supabase.auth.signUp({
+  //         email,
+  //         password,
+  //       });
 
-    if (typeof validUsername === "string") {
-      await SecureStore.setItemAsync("username", validUsername);
-      await SecureStore.setItemAsync("password", password);
-      alert("Votre compte a été créé avec succès !");
-    }
+  //     if (signUpError) {
+  //       console.error("Signup error:", signUpError.message);
+  //       console.log("Signup error details:", signUpError);
+  //       alert("Échec de la création du compte.");
+  //       return;
+  //     }
 
-    router.replace({
-      pathname: "/heard_about",
-      params: { username },
-    });
-  };
+  //     const session = signUpData.session;
+  //     if (!session) {
+  //       alert("Veuillez confirmer votre e-mail avant de continuer.");
+  //       return;
+  //     }
+
+  //     const userId = session.user.id;
+
+  //     const { error: insertError } = await supabase.from("users").insert({
+  //       id: userId,
+  //       first_name: firstName,
+  //       last_name: lastName,
+  //       username: contextUsername,
+  //       email,
+  //       age,
+  //     });
+
+  //     if (insertError) {
+  //       console.error("Error inserting user data:", insertError.message);
+  //       alert(
+  //         "Une erreur s'est produite lors de l'enregistrement des données."
+  //       );
+  //       return;
+  //     }
+
+  //     await SecureStore.setItemAsync("username", contextUsername);
+  //     await SecureStore.setItemAsync("password", password);
+
+  //     alert("Votre compte a été créé avec succès !");
+  //     router.replace({
+  //       pathname: "/heard_about",
+  //       params: { username: contextUsername },
+  //     });
+  //   } catch (err) {
+  //     console.error("Unexpected error during signup:", err);
+  //     alert("Une erreur inattendue s'est produite.");
+  //   }
+  // };
 
   const isFormValid = () => {
     return isPasswordValid(password) && password === confirmPassword;
+  };
+
+  const handleContinue = async () => {
+    // Temporarily bypass Supabase sign-up and user data insertion
+    try {
+      // Directly navigate to the next screen
+      alert("Bypassing sign-up for now. User details will not be saved.");
+      router.replace({
+        pathname: "/heard_about",
+        params: { username: contextUsername },
+      });
+    } catch (err) {
+      console.error("Unexpected error during bypass:", err);
+      alert("Une erreur inattendue s'est produite.");
+    }
   };
 
   return (

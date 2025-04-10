@@ -8,13 +8,12 @@ import {
   TextInput,
 } from "react-native";
 import { theme } from "../theme";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useUser } from "../providers/UserProvider";
 
 // User can create a different username
-// Username is checked against other usernames in the database
-// Navigates to the next onboarding screen
+// TO DO: Username is checked against other usernames in the database
 
 export default function CreatedUsername() {
   const [username, setUsername] = useState("");
