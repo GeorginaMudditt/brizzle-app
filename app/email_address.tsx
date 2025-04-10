@@ -10,6 +10,7 @@ import {
 import { theme } from "../theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useUser } from "../providers/UserProvider";
+import { supabase } from "../lib/supabase";
 
 // User enters email address
 
@@ -29,13 +30,24 @@ export default function EmailAddress() {
     setEmailError(false);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (!isEmailValid(email)) {
       setEmailError(true);
       return;
     }
+
+    const { error } = await supabase
+      .from("users")
+      .update({ email, username })
+      .eq("username", username); // use username to find the right row
+
+    if (error) {
+      console.error("Error updating user email and username:", error.message);
+      return;
+    }
+
     router.push({
-      pathname: "/password",
+      pathname: "/age",
       params: { username },
     });
   };

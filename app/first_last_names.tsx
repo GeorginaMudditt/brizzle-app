@@ -8,6 +8,7 @@ import {
   TextInput,
 } from "react-native";
 import { theme } from "../theme";
+import { supabase } from "../lib/supabase";
 import { useRouter } from "expo-router";
 import { capitaliseFirstLetter, removePunctuation } from "../lib/tools";
 import { useUser } from "../providers/UserProvider";
@@ -22,7 +23,7 @@ export default function FirstLastNames() {
 
   const router = useRouter();
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const formattedFirstName = capitaliseFirstLetter(
       removePunctuation(firstName.trim())
     );
@@ -35,6 +36,20 @@ export default function FirstLastNames() {
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/\s+/g, "")
       .replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ0-9_-]/g, "");
+
+    const { data, error } = await supabase.from("users").insert([
+      {
+        first_name: formattedFirstName,
+        last_name: formattedLastName,
+      },
+    ]);
+
+    if (error) {
+      console.error("Error saving names to Supabase:", error.message);
+      return;
+    }
+
+    console.log("Inserted user:", data);
 
     setUsername(username);
 

@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../../theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Video, ResizeMode } from "expo-av";
 import { useUser } from "../../providers/UserProvider";
 
 // User is asked if they are ready to start the game
@@ -29,12 +28,9 @@ export default function A1Ready() {
         tableau des récompenses.
       </Text>
       <Text style={styles.h2}>Allons-y, {username} ?</Text>
-      <Video
-        source={require("../../assets/Ready-updated.mp4")}
-        style={styles.video}
-        resizeMode={ResizeMode.CONTAIN}
-        isLooping={true}
-        shouldPlay={true}
+      <Image
+        source={require("../../assets/yes.png")}
+        style={styles.yesCartoon}
       />
       <TouchableOpacity style={styles.button} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continuez</Text>
@@ -71,6 +67,12 @@ const styles = StyleSheet.create({
   video: {
     width: 300,
     height: 300,
+  },
+  yesCartoon: {
+    width: 250,
+    height: 250,
+    marginTop: 40,
+    marginBottom: 30,
   },
   button: {
     backgroundColor: theme.colorA1,

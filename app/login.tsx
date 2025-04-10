@@ -7,7 +7,6 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  Touchable,
 } from "react-native";
 import { theme } from "../theme";
 import * as SecureStore from "expo-secure-store";
@@ -22,6 +21,7 @@ export default function Login() {
   const [passwordInput, setPasswordInput] = useState("");
   const [usernameError, setUsernameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     setUsernameError(false);
@@ -71,13 +71,22 @@ export default function Login() {
       {usernameError && <Text style={styles.errorText}>Invalid username</Text>}
 
       {/* Password Input */}
-      <TextInput
-        style={[styles.input, passwordError && styles.inputError]}
-        placeholder="Password"
-        secureTextEntry
-        value={passwordInput}
-        onChangeText={setPasswordInput}
-      />
+      <View style={styles.passwordContainer}>
+        <TextInput
+          style={styles.passwordInput}
+          placeholder="Password"
+          secureTextEntry={!showPassword}
+          value={passwordInput}
+          onChangeText={setPasswordInput}
+        />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Ionicons
+            name={showPassword ? "eye-off" : "eye"} // Toggle icon
+            size={24}
+            color={theme.colorBlue}
+          />
+        </TouchableOpacity>
+      </View>
       {passwordError && <Text style={styles.errorText}>Invalid password</Text>}
 
       {/* Login Button */}
@@ -132,6 +141,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 10,
     paddingHorizontal: 30,
+  },
+  passwordContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderColor: theme.colorBlue,
+    borderWidth: 1,
+    borderRadius: 5,
+    width: "80%",
+    paddingHorizontal: 10,
+    marginVertical: 10,
+  },
+  passwordInput: {
+    flex: 1,
+    fontSize: 18,
   },
   button: {
     backgroundColor: theme.colorBlue,
