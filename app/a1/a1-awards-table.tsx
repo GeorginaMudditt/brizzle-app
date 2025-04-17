@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import { theme } from "../../theme";
-import { useLocalSearchParams } from "expo-router";
 import { supabase } from "../../lib/supabase";
 import { Link } from "expo-router";
 import { useUser } from "../../providers/UserProvider";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface IconRow {
   icon: string;
@@ -78,12 +78,17 @@ export default function AwardsTable() {
         <Text style={styles.introTextHeader}>Brizzle A1</Text>
       </View>
       <Text style={styles.h2}>Name : {username}</Text>
-      <Text style={styles.h3}>Progress : Progress bar</Text>
+      <Text style={styles.h4}>Progress : Progress bar</Text>
+
       <FlatList
         data={icons}
         renderItem={renderRow}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.grid}
+      />
+      <LinearGradient
+        colors={["transparent", theme.colorBlue]}
+        style={styles.gradient}
       />
       <Text style={styles.h3}>Share</Text>
     </View>
@@ -99,6 +104,7 @@ const styles = StyleSheet.create({
   balloonCircleLogo: {
     width: 100,
     height: 100,
+    marginTop: 20,
   },
   awardsHeader: {
     alignItems: "center",
@@ -108,18 +114,22 @@ const styles = StyleSheet.create({
   introTextHeader: {
     color: theme.colorA1,
     fontSize: 30,
+    marginTop: 20,
   },
   h2: {
     fontSize: 30,
     color: theme.colorBlue,
-    marginTop: 20,
     textAlign: "center",
   },
   h3: {
     fontSize: 24,
     color: theme.colorBlue,
-    margin: 20,
     textAlign: "center",
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  h4: {
+    color: theme.colorA1,
   },
   grid: {
     width: "80%",
@@ -145,5 +155,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: theme.colorBlue,
     textDecorationLine: "underline",
+  },
+  gradient: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 50,
+    marginBottom: 50,
   },
 });

@@ -16,8 +16,9 @@ export default function Silver() {
         />
         <Text style={styles.introTextHeader}>Brizzle A1</Text>
       </View>
-      <Text style={styles.h2}>
-        {topic} : Silver (<Text style={styles.italic}>Argent</Text>)
+      <Text style={styles.h2}>{topic}</Text>
+      <Text style={styles.h4}>
+        Silver (<Text style={styles.italic}>Argent</Text>)
       </Text>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Continuez</Text>
@@ -57,11 +58,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: "center",
   },
-  h3: {
-    fontSize: 24,
-    color: theme.colorBlue,
-    margin: 20,
-    textAlign: "center",
+  h4: {
+    fontSize: 20,
+    color: theme.colorA1,
+    marginTop: 10,
+    marginBottom: 10,
   },
   italic: {
     fontStyle: "italic",

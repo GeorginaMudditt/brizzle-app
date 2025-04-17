@@ -12,6 +12,7 @@ import { useLocalSearchParams, Link } from "expo-router";
 import { supabase } from "../../lib/supabase";
 import { Audio } from "expo-av";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface VocabRow {
   word_english: string;
@@ -27,17 +28,17 @@ export default function Bronze() {
     const fetchVocab = async () => {
       try {
         const { data, error } = await supabase
-          .from("Brizzle_A1_vocab") 
+          .from("Brizzle_A1_vocab")
           .select("word_english, pron_english, translation_french")
           .eq("topic_page", topic)
-          .order("id", { ascending: true }); 
+          .order("id", { ascending: true });
 
         if (error) {
           console.error("Error fetching vocab data:", error);
           return;
         }
 
-        setVocab(data || []); 
+        setVocab(data || []);
       } catch (err) {
         console.error("Unexpected error:", err);
       }
@@ -46,10 +47,17 @@ export default function Bronze() {
     fetchVocab();
   }, [topic]);
 
-   const playAudio = async (audioUrl: string) => {
+  const playAudio = async (audioUrl: string) => {
     try {
-      const { sound } = await Audio.Sound.createAsync({ uri: audioUrl });
-      await sound.playAsync();
+      const { sound } = await Audio.Sound.createAsync(
+        { uri: audioUrl },
+        { shouldPlay: true }
+      );
+      sound.setOnPlaybackStatusUpdate(async (status) => {
+        if (status.isLoaded && status.didJustFinish) {
+          await sound.unloadAsync();
+        }
+      });
     } catch (error) {
       console.error("Error playing audio:", error);
     }
@@ -58,7 +66,7 @@ export default function Bronze() {
   const renderRow = ({ item }: { item: VocabRow }) => {
     return (
       <View style={styles.row}>
-        <View style={styles.cellEnd}>
+        <View style={styles.cellLeft}>
           <Text style={styles.cellText}>{item.word_english}</Text>
         </View>
         <View style={styles.cellMiddle}>
@@ -66,8 +74,10 @@ export default function Bronze() {
             <Ionicons name="volume-high" size={24} color={theme.colorBlue} />
           </TouchableOpacity>
         </View>
-        <View style={styles.cellEnd}>
-          <Text style={[styles.cellText, styles.italic]}>{item.translation_french}</Text>
+        <View style={styles.cellRight}>
+          <Text style={[styles.cellText, styles.italic]}>
+            {item.translation_french}
+          </Text>
         </View>
       </View>
     );
@@ -82,8 +92,9 @@ export default function Bronze() {
         />
         <Text style={styles.introTextHeader}>Brizzle A1</Text>
       </View>
-      <Text style={styles.h2}>
-        {topic} : Bronze (<Text style={styles.italic}>Bronze</Text>)
+      <Text style={styles.h2}>{topic}</Text>
+      <Text style={styles.h4}>
+        Bronze (<Text style={styles.italic}>Bronze</Text>)
       </Text>
       <FlatList
         data={vocab}
@@ -92,9 +103,21 @@ export default function Bronze() {
         contentContainerStyle={styles.grid}
         showsVerticalScrollIndicator={true}
       />
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Continuez</Text>
-      </TouchableOpacity>
+      <LinearGradient
+        colors={["transparent", theme.colorBlue]}
+        style={styles.gradient}
+      />
+      <Link
+        href={{
+          pathname: "./a1-silver",
+          params: { topic },
+        }}
+        asChild
+      >
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Continuez</Text>
+        </TouchableOpacity>
+      </Link>
       <Link href="./a1-awards-table" asChild>
         <Text style={styles.backToAwards}>
           Retour au tableau des récompenses A1
@@ -129,6 +152,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: "center",
   },
+  h4: {
+    fontSize: 20,
+    color: theme.colorA1,
+    marginTop: 10,
+    marginBottom: 10,
+  },
   italic: {
     fontStyle: "italic",
   },
@@ -145,15 +174,34 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
   },
-  cellEnd: {
+  cellLeft: {
     width: "40%",
+    alignItems: "flex-start",
+    justifyContent: "center",
   },
   cellMiddle: {
     width: "20%",
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cellRight: {
+    width: "40%",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    paddingRight: 15,
   },
   cellText: {
     fontSize: 16,
     color: theme.colorBlue,
+  },
+  gradient: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 50,
+    marginBottom: 110,
   },
   button: {
     backgroundColor: theme.colorA1,
@@ -170,8 +218,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   backToAwards: {
-    padding: 30,
     fontSize: 15,
+    marginBottom: 20,
     textAlign: "center",
     textDecorationLine: "underline",
   },
