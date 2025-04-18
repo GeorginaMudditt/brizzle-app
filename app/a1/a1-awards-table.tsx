@@ -9,6 +9,7 @@ import { LinearGradient } from "expo-linear-gradient";
 interface IconRow {
   icon: string;
   topic_page: string;
+  icon_bronze?: string; // Optional property for bronze icon
 }
 
 export default function AwardsTable() {
@@ -20,7 +21,7 @@ export default function AwardsTable() {
       try {
         const { data, error } = await supabase
           .from("Brizzle_A1_icons")
-          .select("icon, topic_page")
+          .select("icon, topic_page, icon_bronze")
           .order("created_at", { ascending: true });
 
         if (error) {
@@ -28,11 +29,11 @@ export default function AwardsTable() {
           return;
         }
 
-        console.log("Raw Supabase response:", data);
+        // console.log("Raw Supabase response:", data);
 
-        if (!data || data.length === 0) {
-          console.warn("No data returned from Supabase.");
-        }
+        // if (!data || data.length === 0) {
+        //   console.warn("No data returned from Supabase.");
+        // }
 
         setIcons(data);
       } catch (err) {
@@ -44,7 +45,6 @@ export default function AwardsTable() {
   }, []);
 
   const renderRow = ({ item }: { item: IconRow }) => {
-    console.log("Rendering row for icon and topic:", item);
     return (
       <View style={styles.row}>
         <View style={styles.cell}>
@@ -61,7 +61,11 @@ export default function AwardsTable() {
             {item.topic_page}
           </Link>
         </View>
-        <View style={styles.cell} />
+        <View style={styles.cell}>
+          {item.icon_bronze ? (
+            <Image source={{ uri: item.icon_bronze }} style={styles.icon} />
+          ) : null}
+        </View>
         <View style={styles.cell} />
         <View style={styles.cell} />
       </View>

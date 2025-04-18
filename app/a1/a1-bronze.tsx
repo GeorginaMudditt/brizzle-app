@@ -8,7 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import { theme } from "../../theme";
-import { useLocalSearchParams, Link } from "expo-router";
+import { useLocalSearchParams, Link, useRouter } from "expo-router";
 import { supabase } from "../../lib/supabase";
 import { Audio } from "expo-av";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -22,7 +22,9 @@ interface VocabRow {
 
 export default function Bronze() {
   const { topic } = useLocalSearchParams();
+  const router = useRouter();
   const [vocab, setVocab] = useState<VocabRow[]>([]);
+  const [playedClips, setPlayedClips] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const fetchVocab = async () => {
@@ -55,6 +57,7 @@ export default function Bronze() {
       );
       sound.setOnPlaybackStatusUpdate(async (status) => {
         if (status.isLoaded && status.didJustFinish) {
+          setPlayedClips((prev) => new Set(prev).add(audioUrl));
           await sound.unloadAsync();
         }
       });
@@ -83,6 +86,55 @@ export default function Bronze() {
     );
   };
 
+  const handleContinue = async () => {
+    if (playedClips.size === vocab.length) {
+      alert("Bien joué ! Vous avez terminé le défi de bronze 😊");
+
+      try {
+        const { data, error: fetchError } = await supabase
+          .from("Brizzle_A1_icons")
+          .select("icon_bronze")
+          .eq("topic_page", topic)
+          .single();
+
+        if (fetchError) {
+          console.error("Error updating bronze icon URL:", fetchError);
+          return;
+        }
+
+        const bronzeIconUrl = data?.icon_bronze;
+
+        if (!bronzeIconUrl) {
+          console.error("No bronze icon URL found for this topic.");
+          return;
+        }
+
+        const { error: updateError } = await supabase
+          .from("Brizzle_A1_icons")
+          .update({ icon_bronze: bronzeIconUrl }) // Use the retrieved bronze icon URL
+          .eq("topic_page", topic); // Update only for the current topic
+
+        if (updateError) {
+          console.error("Error updating bronze icon:", updateError);
+          return;
+        }
+
+        console.log("Bronze icon updated successfully!");
+      } catch (err) {
+        console.error("Unexpected error updating bronze icon:", err);
+      }
+
+      router.push({
+        pathname: "./a1-silver",
+        params: { topic },
+      });
+    } else {
+      alert(
+        "Vous devez écouter tous les extraits audio avant de pouvoir continuer."
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.awardsHeader}>
@@ -107,17 +159,9 @@ export default function Bronze() {
         colors={["transparent", theme.colorBlue]}
         style={styles.gradient}
       />
-      <Link
-        href={{
-          pathname: "./a1-silver",
-          params: { topic },
-        }}
-        asChild
-      >
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Continuez</Text>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity style={styles.button} onPress={handleContinue}>
+        <Text style={styles.buttonText}>Continuez</Text>
+      </TouchableOpacity>
       <Link href="./a1-awards-table" asChild>
         <Text style={styles.backToAwards}>
           Retour au tableau des récompenses A1
