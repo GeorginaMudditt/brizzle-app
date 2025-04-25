@@ -5,7 +5,6 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Dimensions,
   Alert,
 } from "react-native";
 import { theme } from "../../theme";
@@ -23,6 +22,9 @@ export default function Silver() {
   const { topic } = useLocalSearchParams();
   const [vocab, setVocab] = useState<VocabRow[]>([]);
   const [matches, setMatches] = useState<{ [key: string]: string }>({});
+  const [positions, setPositions] = useState<{
+    [key: string]: { x: number; y: number };
+  }>({});
 
   useEffect(() => {
     const fetchVocab = async () => {
@@ -58,11 +60,12 @@ export default function Silver() {
   }, [topic]);
 
   const checkMatches = () => {
-    const correct = vocab.every(
+    // Ensure all the vocab is matched
+    const allMatched = vocab.every(
       (item) => matches[item.translation_french] === item.word_english
     );
 
-    if (correct) {
+    if (allMatched) {
       Alert.alert(
         "Félicitations !",
         "Toutes les correspondances sont correctes 🎉"
@@ -86,33 +89,47 @@ export default function Silver() {
         Silver (<Text style={styles.italic}>Argent</Text>)
       </Text>
       <Text style={styles.instructions}>
-        Glissez les mots anglais vers leur traduction française :
+        Glissez les mots anglais vers leur traduction française
       </Text>
 
-      {vocab.map((item, index) => (
-        <View key={index} style={styles.vocabRow}>
-          <View style={styles.dropZone}>
-            <Text style={styles.dropText}>{item.translation_french}</Text>
-          </View>
+      <View style={styles.vocabListsContainer}>
+        {vocab.map((item, index) => (
+          <View key={index} style={styles.row}>
+            {/* French side */}
+            <View style={styles.dropZone}>
+              <Text style={styles.dropText}>{item.translation_french}</Text>
+            </View>
 
-          <Draggable
-            x={Dimensions.get("window").width * 0.6}
-            y={10 + index * 100}
-            renderSize={80}
-            shouldReverse={true}
-            renderColor={theme.colorBlue}
-            onDragRelease={(e, gestureState) => {
-              // Add better logic for detecting the drop later
-              setMatches((prev) => ({
-                ...prev,
-                [item.translation_french]: item.word_english,
-              }));
-            }}
-          >
-            <Text style={styles.draggableText}>{item.word_english}</Text>
-          </Draggable>
-        </View>
-      ))}
+            {/* English draggable box */}
+            <View style={styles.draggableWrapper}>
+              <Draggable
+                shouldReverse={false}
+                renderColor="transparent"
+                renderText=""
+                onDragRelease={(e, gestureState) => {
+                  const newPosition = {
+                    x: gestureState.moveX,
+                    y: gestureState.moveY,
+                  };
+
+                  setPositions((prevPositions) => ({
+                    ...prevPositions,
+                    [item.word_english]: newPosition,
+                  }));
+                  setMatches((prev) => ({
+                    ...prev,
+                    [item.translation_french]: item.word_english,
+                  }));
+                }}
+              >
+                <View style={styles.draggableBox}>
+                  <Text style={styles.draggableText}>{item.word_english}</Text>
+                </View>
+              </Draggable>
+            </View>
+          </View>
+        ))}
+      </View>
 
       <TouchableOpacity style={styles.button} onPress={checkMatches}>
         <Text style={styles.buttonText}>Continuez</Text>
@@ -127,12 +144,6 @@ export default function Silver() {
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   padding: 25,
-  // },
   container: {
     alignItems: "center",
     justifyContent: "flex-start",
@@ -174,13 +185,15 @@ const styles = StyleSheet.create({
     color: theme.colorBlue,
     textAlign: "center",
   },
-  vocabRow: {
+  vocabListsContainer: {
+    width: "100%",
+    paddingBottom: 10,
+  },
+  row: {
     flexDirection: "row",
     alignItems: "center",
+    marginVertical: 5,
     justifyContent: "space-between",
-    width: "100%",
-    marginBottom: 20,
-    paddingHorizontal: 10,
   },
   dropZone: {
     width: "45%",
@@ -190,17 +203,37 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
+    padding: 10,
+    zIndex: 1,
   },
   dropText: {
     fontSize: 20,
     color: theme.colorA1,
-    marginBottom: 10,
+  },
+  draggableWrapper: {
+    width: "45%",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 50,
+    zIndex: 2,
+  },
+  draggableBox: {
+    width: 150,
+    minHeight: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    backgroundColor: theme.colorBlue,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    shadowOpacity: 0,
+    elevation: 0,
+    zIndex: 100,
   },
   draggableText: {
     color: "white",
     fontSize: 18,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
     textAlign: "center",
   },
   button: {
