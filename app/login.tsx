@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,85 +14,106 @@ import { useRouter, Link } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useUser } from "../providers/UserProvider";
 
+import "react-native-url-polyfill/auto";
+import Auth from "../components/Auth";
+import { supabase } from "../lib/supabase";
+import { Session } from "@supabase/supabase-js";
+
 export default function Login() {
-  const { setUsername } = useUser();
-  const router = useRouter();
-  const [usernameInput, setUsernameInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
-  const [usernameError, setUsernameError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  // const { setUsername } = useUser();
+  // const router = useRouter();
+  // const [usernameInput, setUsernameInput] = useState("");
+  // const [passwordInput, setPasswordInput] = useState("");
+  // const [usernameError, setUsernameError] = useState(false);
+  // const [passwordError, setPasswordError] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = async () => {
-    setUsernameError(false);
-    setPasswordError(false);
+  // const handleLogin = async () => {
+  //   setUsernameError(false);
+  //   setPasswordError(false);
 
-    try {
-      const storedUsername = await SecureStore.getItemAsync("username");
-      const storedPassword = await SecureStore.getItemAsync("password");
+  //   try {
+  //     const storedUsername = await SecureStore.getItemAsync("username");
+  //     const storedPassword = await SecureStore.getItemAsync("password");
 
-      if (
-        storedUsername === usernameInput &&
-        storedPassword === passwordInput
-      ) {
-        setUsername(usernameInput);
-        router.replace("/levels");
-      } else {
-        Alert.alert("Nom d'utilisateur ou mot de passe invalide");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la récupération des identifiants", error);
-      Alert.alert(
-        "Erreur",
-        "Une erreur s'est produite lors de la connexion - veuillez réessayer"
-      );
-    }
-  };
+  //     if (
+  //       storedUsername === usernameInput &&
+  //       storedPassword === passwordInput
+  //     ) {
+  //       setUsername(usernameInput);
+  //       router.replace("/levels");
+  //     } else {
+  //       Alert.alert("Nom d'utilisateur ou mot de passe invalide");
+  //     }
+  //   } catch (error) {
+  //     console.error("Erreur lors de la récupération des identifiants", error);
+  //     Alert.alert(
+  //       "Erreur",
+  //       "Une erreur s'est produite lors de la connexion - veuillez réessayer"
+  //     );
+  //   }
+  // };
 
+  // return (
+  //   <View style={styles.container}>
+  //     <Link href="/" asChild>
+  //       <Ionicons style={styles.arrowBack} name="arrow-back-circle" />
+  //     </Link>
+  //     <Image
+  //       source={require("../assets/brizzle-insta-square.png")}
+  //       style={styles.logoWithName}
+  //     />
+  //     <Text style={styles.introText}>
+  //       Entrez vos informations pour vous connecter
+  //     </Text>
+  //     {/* Username Input */}
+  //     <TextInput
+  //       style={[styles.input, usernameError && styles.inputError]}
+  //       placeholder="Username"
+  //       value={usernameInput}
+  //       onChangeText={setUsernameInput}
+  //     />
+  //     {usernameError && <Text style={styles.errorText}>Invalid username</Text>}
+
+  //     {/* Password Input */}
+  //     <View style={styles.passwordContainer}>
+  //       <TextInput
+  //         style={styles.passwordInput}
+  //         placeholder="Password"
+  //         secureTextEntry={!showPassword}
+  //         value={passwordInput}
+  //         onChangeText={setPasswordInput}
+  //       />
+  //       <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+  //         <Ionicons
+  //           name={showPassword ? "eye-off" : "eye"} // Toggle icon
+  //           size={24}
+  //           color={theme.colorBlue}
+  //         />
+  //       </TouchableOpacity>
+  //     </View>
+  //     {passwordError && <Text style={styles.errorText}>Invalid password</Text>}
+
+  //     {/* Login Button */}
+  //     <TouchableOpacity style={styles.button} onPress={handleLogin}>
+  //       <Text style={styles.buttonText}>Se connecter</Text>
+  //     </TouchableOpacity>
+  //   </View>
+  // );
+
+  const [session, setSession] = useState<Session | null>(null);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
   return (
-    <View style={styles.container}>
-      <Link href="/" asChild>
-        <Ionicons style={styles.arrowBack} name="arrow-back-circle" />
-      </Link>
-      <Image
-        source={require("../assets/brizzle-insta-square.png")}
-        style={styles.logoWithName}
-      />
-      <Text style={styles.introText}>
-        Entrez vos informations pour vous connecter
-      </Text>
-      {/* Username Input */}
-      <TextInput
-        style={[styles.input, usernameError && styles.inputError]}
-        placeholder="Username"
-        value={usernameInput}
-        onChangeText={setUsernameInput}
-      />
-      {usernameError && <Text style={styles.errorText}>Invalid username</Text>}
-
-      {/* Password Input */}
-      <View style={styles.passwordContainer}>
-        <TextInput
-          style={styles.passwordInput}
-          placeholder="Password"
-          secureTextEntry={!showPassword}
-          value={passwordInput}
-          onChangeText={setPasswordInput}
-        />
-        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Ionicons
-            name={showPassword ? "eye-off" : "eye"} // Toggle icon
-            size={24}
-            color={theme.colorBlue}
-          />
-        </TouchableOpacity>
-      </View>
-      {passwordError && <Text style={styles.errorText}>Invalid password</Text>}
-
-      {/* Login Button */}
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Se connecter</Text>
-      </TouchableOpacity>
+    <View>
+      <Auth />
+      {session && session.user && <Text>{session.user.id}</Text>}
     </View>
   );
 }
