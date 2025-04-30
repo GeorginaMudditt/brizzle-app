@@ -22,18 +22,10 @@ export default function App() {
           votre rythme et en vous amusant !
         </Text>
         <View style={styles.buttonContainer}>
-          <Link href="/first_last_names" asChild>
+          <Link href="/login" asChild>
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonText}>Allons-y !</Text>
             </TouchableOpacity>
-          </Link>
-        </View>
-        <Text style={styles.loginText}>
-          Êtes-vous déjà inscrit auprès de Brizzle ?
-        </Text>
-        <View style={styles.buttonContainer}>
-          <Link href="/login" asChild>
-            <Text style={styles.loginTextLink}>Connectez-vous</Text>
           </Link>
         </View>
       </View>

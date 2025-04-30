@@ -8,6 +8,7 @@ import {
   Text,
 } from "react-native";
 import { supabase } from "../lib/supabase";
+import { theme } from "../theme";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -50,31 +51,37 @@ export default function Auth() {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+      <View style={styles.verticallySpaced}>
         <TextInput
+          style={styles.input}
           onChangeText={(text) => setEmail(text)}
           value={email}
-          placeholder="email@address.com"
+          placeholder="Adresse e-mail"
           autoCapitalize={"none"}
         />
       </View>
       <View style={styles.verticallySpaced}>
         <TextInput
+          style={styles.input}
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry={true}
-          placeholder="Password"
+          placeholder="Mot de passe"
           autoCapitalize={"none"}
         />
       </View>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <TouchableOpacity disabled={loading} onPress={() => signInWithEmail()}>
-          <Text>Sign in</Text>
+      <View style={styles.verticallySpaced}>
+        <TouchableOpacity
+          style={styles.button}
+          disabled={loading}
+          onPress={() => signUpWithEmail()}
+        >
+          <Text style={styles.buttonText}>Créer un compte</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.verticallySpaced}>
-        <TouchableOpacity disabled={loading} onPress={() => signUpWithEmail()}>
-          <Text>Sign up</Text>
+        <TouchableOpacity disabled={loading} onPress={() => signInWithEmail()}>
+          <Text style={styles.loginText}>Déjà un compte ? Se connecter</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -83,15 +90,42 @@ export default function Auth() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
-    padding: 12,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+  button: {
+    backgroundColor: theme.colorBlue,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    marginBottom: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
+  },
+  loginText: {
+    fontSize: 18,
+    marginTop: 50,
+    textDecorationStyle: "solid",
+    textDecorationLine: "underline",
+  },
+  input: {
+    fontSize: 18,
+    borderColor: theme.colorBlue,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginVertical: 10,
   },
   verticallySpaced: {
     paddingTop: 4,
     paddingBottom: 4,
     alignSelf: "stretch",
-  },
-  mt20: {
-    marginTop: 20,
   },
 });
