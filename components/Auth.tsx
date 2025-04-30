@@ -45,7 +45,9 @@ export default function Auth() {
     if (error)
       Alert.alert(error.message + error.code + error.name + error.cause);
     if (!session)
-      Alert.alert("Please check your inbox for email verification!");
+      Alert.alert(
+        "Veuillez vérifier votre boîte de réception pour l’e-mail de vérification."
+      );
     setLoading(false);
   }
 
