@@ -22,7 +22,6 @@ export default function Login() {
         style={styles.logoWithName}
       />
       <Auth />
-      {session && session.user && <Text>{session.user.id}</Text>}
     </View>
   );
 }
@@ -35,8 +34,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   logoWithName: {
-    width: 180,
-    height: 180,
+    width: 80,
+    height: 80,
     alignSelf: "center",
     borderRadius: 100,
     marginTop: 50,

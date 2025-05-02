@@ -6,71 +6,121 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  ActivityIndicator,
 } from "react-native";
 import { supabase } from "../lib/supabase";
 import { theme } from "../theme";
+import Icon from "react-native-vector-icons/Ionicons";
+import { useRouter } from "expo-router";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function signInWithEmail() {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) Alert.alert(error.message);
-    setLoading(false);
+      if (error) {
+        if (error.message.toLowerCase().includes("invalid login credentials")) {
+          Alert.alert("Adresse e-mail ou mot de passe incorrect");
+        } else if (
+          error.message.toLowerCase().includes("email not confirmed")
+        ) {
+          Alert.alert(
+            "Veuillez vérifier votre adresse e-mail avant de vous connecter."
+          );
+        } else {
+          Alert.alert("Erreur lors de la connexion : " + error.message);
+        }
+      } else {
+        router.push({
+          pathname: "/levels",
+        });
+      }
+    } catch (err) {
+      Alert.alert("Une erreur inattendue est survenue.");
+    } finally {
+      setLoading(false); // ✅ Spinner stops here in all cases
+    }
   }
 
   async function signUpWithEmail() {
     setLoading(true);
-    const {
-      data: { session },
-      error,
-    } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-      options: {
-        data: {
-          first_name: "John",
-          age: 27,
-        },
-      },
-    });
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
 
-    if (error)
-      Alert.alert(error.message + error.code + error.name + error.cause);
-    if (!session)
-      Alert.alert(
-        "Veuillez vérifier votre boîte de réception pour l’e-mail de vérification."
-      );
-    setLoading(false);
+      if (error) {
+        if (error.message.toLowerCase().includes("already registered")) {
+          Alert.alert(
+            "Cette adresse e-mail est déjà associée à un compte. Veuillez vous connecter."
+          );
+        } else if (error.message.toLowerCase().includes("invalid email")) {
+          Alert.alert(
+            "Nous n'avons pas pu envoyer un e-mail à cette adresse. Veuillez saisir une adresse e-mail valide."
+          );
+        } else {
+          Alert.alert(
+            "Erreur lors de la création du compte : " + error.message
+          );
+        }
+      } else {
+        Alert.alert(
+          "Veuillez vérifier votre boîte de réception pour valider votre adresse e-mail."
+        );
+      }
+    } catch (err) {
+      Alert.alert("Une erreur inattendue est survenue.");
+    } finally {
+      setLoading(false); // ✅ Spinner stops here too
+    }
   }
 
   return (
     <View style={styles.container}>
+      {loading && (
+        <ActivityIndicator
+          size="large"
+          color={theme.colorBlue}
+          style={{ marginBottom: 20 }}
+        />
+      )}
       <View style={styles.verticallySpaced}>
         <TextInput
-          style={styles.input}
+          style={styles.emailInput}
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder="Adresse e-mail"
           autoCapitalize={"none"}
         />
       </View>
-      <View style={styles.verticallySpaced}>
+      <View style={[styles.verticallySpaced, styles.inputContainer]}>
         <TextInput
-          style={styles.input}
+          style={styles.passwordInput}
           onChangeText={(text) => setPassword(text)}
           value={password}
-          secureTextEntry={true}
+          secureTextEntry={!showPassword}
           placeholder="Mot de passe"
           autoCapitalize={"none"}
         />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Icon
+            name={showPassword ? "eye-off" : "eye"}
+            size={24}
+            color="#888"
+            style={styles.eyeIcon}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.verticallySpaced}>
         <TouchableOpacity
@@ -82,8 +132,12 @@ export default function Auth() {
         </TouchableOpacity>
       </View>
       <View style={styles.verticallySpaced}>
-        <TouchableOpacity disabled={loading} onPress={() => signInWithEmail()}>
-          <Text style={styles.loginText}>Déjà un compte ? Se connecter</Text>
+        <TouchableOpacity
+          style={styles.button}
+          disabled={loading}
+          onPress={() => signInWithEmail()}
+        >
+          <Text style={styles.buttonText}>Se connecter</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -96,6 +150,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderColor: theme.colorBlue,
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginVertical: 10,
+    height: 50,
+  },
+
+  passwordInput: {
+    flex: 1,
+    fontSize: 18,
+    paddingVertical: 0,
+  },
+
+  eyeIcon: {
+    marginLeft: 10,
   },
   button: {
     backgroundColor: theme.colorBlue,
@@ -111,19 +185,15 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
   },
-  loginText: {
-    fontSize: 18,
-    marginTop: 50,
-    textDecorationStyle: "solid",
-    textDecorationLine: "underline",
-  },
-  input: {
+  emailInput: {
     fontSize: 18,
     borderColor: theme.colorBlue,
     borderWidth: 1,
     borderRadius: 5,
-    padding: 10,
+    paddingHorizontal: 10,
     marginVertical: 10,
+    height: 50,
+    paddingVertical: 0,
   },
   verticallySpaced: {
     paddingTop: 4,
