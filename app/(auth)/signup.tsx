@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { supabase } from "../../lib/supabase";
+import { theme } from "../../theme";
+import Icon from "react-native-vector-icons/Ionicons";
+import { Link } from "expo-router";
+
 import {
   Alert,
   StyleSheet,
@@ -8,12 +13,11 @@ import {
   Text,
   ActivityIndicator,
 } from "react-native";
-import { supabase } from "../lib/supabase";
-import { theme } from "../theme";
-import Icon from "react-native-vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 
-export default function Auth() {
+export default function Signup() {
+  const [loading, setLoading] = useState(false);
+
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
@@ -22,57 +26,7 @@ export default function Auth() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [loading, setLoading] = useState(false);
-
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [isSignIn, setIsSignIn] = useState(false);
-
   const router = useRouter();
-
-  const isValidPassword = () => {
-    if (password.length < 8) {
-      Alert.alert("Le mot de passe doit contenir au moins 8 caractères.");
-      return false;
-    }
-    if (password !== confirmPassword) {
-      Alert.alert("Les mots de passe ne correspondent pas.");
-      return false;
-    }
-    // add more check if needed
-    return true;
-  };
-
-  async function signInWithEmail() {
-    setLoading(true);
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        if (error.message.toLowerCase().includes("invalid login credentials")) {
-          Alert.alert("Adresse e-mail ou mot de passe incorrect");
-        } else if (
-          error.message.toLowerCase().includes("email not confirmed")
-        ) {
-          Alert.alert(
-            "Veuillez vérifier votre adresse e-mail avant de vous connecter."
-          );
-        } else {
-          Alert.alert("Erreur lors de la connexion : " + error.message);
-        }
-      } else {
-        router.push({
-          pathname: "/levels",
-        });
-      }
-    } catch (err) {
-      Alert.alert("Une erreur inattendue est survenue.");
-    } finally {
-      setLoading(false); // ✅ Spinner stops here in all cases
-    }
-  }
 
   async function signUpWithEmail() {
     setLoading(true);
@@ -109,36 +63,16 @@ export default function Auth() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.verticallySpaced}>
-        <TouchableOpacity
-          style={styles.button}
-          disabled={loading}
-          onPress={() => setIsSignIn(true)}
-        >
-          <Text style={styles.buttonText}>Créer un compte</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.verticallySpaced}>
-        <TouchableOpacity
-          style={styles.button}
-          disabled={loading}
-          onPress={() => setIsSignUp(true)}
-        >
-          <Text style={styles.buttonText}>Créer un compte</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* ============ LOADING =============== */}
-      {loading && (
+      <Link href="/login" asChild>
+        Back
+      </Link>
+      {loading ? (
         <ActivityIndicator
           size="large"
           color={theme.colorBlue}
           style={{ marginBottom: 20 }}
         />
-      )}
-
-      {/* ============ SIGN UP =============== */}
-      {isSignUp && (
+      ) : (
         <>
           <View style={styles.verticallySpaced}>
             <TextInput
@@ -196,49 +130,6 @@ export default function Auth() {
               onPress={() => signUpWithEmail()}
             >
               <Text style={styles.buttonText}>Créer un compte</Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
-
-      {/* ============ SIGN IN =============== */}
-      {isSignIn && (
-        <>
-          <View style={styles.verticallySpaced}>
-            <TextInput
-              style={styles.emailInput}
-              onChangeText={(text) => setEmail(text)}
-              value={email}
-              placeholder="Adresse e-mail"
-              autoCapitalize={"none"}
-            />
-          </View>
-          <View style={[styles.verticallySpaced, styles.inputContainer]}>
-            <TextInput
-              style={styles.passwordInput}
-              onChangeText={(text) => setPassword(text)}
-              value={password}
-              secureTextEntry={!showPassword}
-              placeholder="Mot de passe"
-              autoCapitalize={"none"}
-            />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Icon
-                name={showPassword ? "eye-off" : "eye"}
-                size={24}
-                color="#888"
-                style={styles.eyeIcon}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.verticallySpaced}>
-            <TouchableOpacity
-              style={styles.button}
-              disabled={loading}
-              onPress={() => signInWithEmail()}
-            >
-              <Text style={styles.buttonText}>Se connecter</Text>
             </TouchableOpacity>
           </View>
         </>

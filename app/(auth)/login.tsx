@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import "react-native-url-polyfill/auto";
-import Auth from "../components/Auth";
-import { supabase } from "../lib/supabase";
+import { supabase } from "../../lib/supabase";
 import { Session } from "@supabase/supabase-js";
+import { Link } from "expo-router";
 
 export default function Login() {
   const [session, setSession] = useState<Session | null>(null);
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -15,13 +16,15 @@ export default function Login() {
       setSession(session);
     });
   }, []);
+
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/brizzle-insta-square.png")}
+        source={require("../../assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
-      <Auth />
+      <Link href="/signup">Créer un compte</Link>
+      <Link href="/signin">Se connecter</Link>
     </View>
   );
 }
