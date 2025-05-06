@@ -8,4 +8,10 @@ module.exports = {
       },
     }),
   },
+  resolver: {
+    // Sometimes, explicitly adding this can fix import resolution issues
+    extraNodeModules: {
+      // Add any custom paths if necessary
+    },
+  },
 };
