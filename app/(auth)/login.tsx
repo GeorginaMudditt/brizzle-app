@@ -14,7 +14,7 @@ export default function Login() {
       <View style={styles.buttonContainer}>
         <Link href="/signup" asChild>
           <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Créer un compte !</Text>
+            <Text style={styles.buttonText}>Créer un compte</Text>
           </TouchableOpacity>
         </Link>
 
@@ -34,16 +34,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    alignContent: "center",
     justifyContent: "center",
-    padding: 20,
+    paddingVertical: 150,
+    paddingHorizontal: 50,
   },
   logoWithName: {
-    width: 120,
-    height: 120,
+    width: 180,
+    height: 180,
     alignSelf: "center",
     borderRadius: 100,
-    marginTop: 50,
-    marginBottom: 20,
   },
   button: {
     backgroundColor: theme.colorBlue,
@@ -67,5 +67,6 @@ const styles = StyleSheet.create({
   or: {
     textAlign: "center",
     fontSize: 20,
+    color: theme.colorBlue,
   },
 });
