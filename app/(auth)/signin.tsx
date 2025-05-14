@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Link } from "expo-router";
 import {
   Alert,
+  Image,
   StyleSheet,
   View,
   TextInput,
@@ -15,7 +16,7 @@ import {
 import { useRouter } from "expo-router";
 import { useUser } from "../../providers/UserProvider";
 
-export default function Signin() {
+export default function Signinname() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -72,6 +73,10 @@ export default function Signin() {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../../assets/brizzle-insta-square.png")}
+        style={styles.logoWithName}
+      />
       <Link href="/login" asChild>
         Back
       </Link>
@@ -111,7 +116,7 @@ export default function Signin() {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.verticallySpaced}>
+          <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.button}
               disabled={loading}
@@ -130,8 +135,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    alignContent: "center",
     justifyContent: "center",
-    padding: 20,
+    paddingVertical: 150,
+    paddingHorizontal: 50,
+  },
+  logoWithName: {
+    width: 180,
+    height: 180,
+    alignSelf: "center",
+    borderRadius: 100,
+    marginBottom: 50,
   },
   inputContainer: {
     flexDirection: "row",
@@ -158,10 +172,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 10,
     borderRadius: 5,
-    marginTop: 20,
-    marginBottom: 10,
+    width: 250,
     justifyContent: "center",
     alignItems: "center",
+  },
+  buttonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    gap: 20,
   },
   buttonText: {
     color: "white",

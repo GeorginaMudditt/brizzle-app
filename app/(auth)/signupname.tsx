@@ -6,6 +6,7 @@ import { Link } from "expo-router";
 
 import {
   Alert,
+  Image,
   StyleSheet,
   View,
   TextInput,
@@ -79,7 +80,7 @@ export default function Signup() {
             {
               text: "OK",
               onPress: () => {
-                router.push("/signin");
+                router.push("/signin2");
               },
             },
           ]
@@ -94,6 +95,10 @@ export default function Signup() {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../../assets/brizzle-insta-square.png")}
+        style={styles.logoWithName}
+      />
       <Link href="/login" asChild>
         Back
       </Link>
@@ -192,8 +197,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    alignContent: "center",
     justifyContent: "center",
-    padding: 20,
+    paddingVertical: 150,
+    paddingHorizontal: 50,
+  },
+  logoWithName: {
+    width: 180,
+    height: 180,
+    alignSelf: "center",
+    borderRadius: 100,
+    marginBottom: 50,
   },
   inputContainer: {
     flexDirection: "row",
