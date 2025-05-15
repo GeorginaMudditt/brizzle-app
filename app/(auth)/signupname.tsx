@@ -80,7 +80,7 @@ export default function Signup() {
             {
               text: "OK",
               onPress: () => {
-                router.push("/signin2");
+                router.push("/signin");
               },
             },
           ]
@@ -95,6 +95,9 @@ export default function Signup() {
 
   return (
     <View style={styles.container}>
+      <Link href="/" asChild>
+        <Icon name="arrow-back-circle" style={styles.arrowIcon} />
+      </Link>
       <Image
         source={require("../../assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
@@ -201,6 +204,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 150,
     paddingHorizontal: 50,
+  },
+  arrowIcon: {
+    position: "absolute",
+    top: 80,
+    left: 50,
+    fontSize: 40,
+    color: theme.colorBlue,
   },
   logoWithName: {
     width: 180,

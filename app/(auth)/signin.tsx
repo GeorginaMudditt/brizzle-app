@@ -16,7 +16,7 @@ import {
 import { useRouter } from "expo-router";
 import { useUser } from "../../providers/UserProvider";
 
-export default function Signinname() {
+export default function Signin() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -73,6 +73,9 @@ export default function Signinname() {
 
   return (
     <View style={styles.container}>
+      <Link href="/" asChild>
+        <Icon name="arrow-back-circle" style={styles.arrowIcon} />
+      </Link>
       <Image
         source={require("../../assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
@@ -139,6 +142,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 150,
     paddingHorizontal: 50,
+  },
+  arrowIcon: {
+    position: "absolute",
+    top: 80,
+    left: 50,
+    fontSize: 40,
+    color: theme.colorBlue,
   },
   logoWithName: {
     width: 180,
