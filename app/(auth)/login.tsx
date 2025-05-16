@@ -14,7 +14,7 @@ export default function Login() {
       />
 
       <View style={styles.buttonContainer}>
-        <Link href="/signupname" asChild>
+        <Link href="/signup" asChild>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Créer un compte</Text>
           </TouchableOpacity>

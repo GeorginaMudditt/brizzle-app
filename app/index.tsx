@@ -4,7 +4,6 @@ import { theme } from "../theme";
 import { Link } from "expo-router";
 
 // Welcome screen for the app
-
 export default function App() {
   return (
     <View style={styles.container}>
