@@ -16,6 +16,8 @@ import {
 import { useRouter } from "expo-router";
 import { useUser } from "../../providers/UserProvider";
 
+// User can sign in with email and password
+
 export default function Signin() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");

@@ -3,6 +3,8 @@ import "react-native-url-polyfill/auto";
 import { Link } from "expo-router";
 import { theme } from "../../theme";
 
+// User can login or create an account
+
 export default function Login() {
   return (
     <View style={styles.container}>

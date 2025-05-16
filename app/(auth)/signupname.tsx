@@ -12,7 +12,6 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
 
@@ -102,96 +101,34 @@ export default function Signup() {
         source={require("../../assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
-      <Link href="/login" asChild>
-        Back
-      </Link>
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          color={theme.colorBlue}
-          style={{ marginBottom: 20 }}
+      <View style={styles.verticallySpaced}>
+        <TextInput
+          style={styles.emailInput}
+          onChangeText={(text) => setFirstName(text)}
+          value={firstName}
+          placeholder="Prénom"
         />
-      ) : (
-        <>
-          <View style={styles.verticallySpaced}>
-            <TextInput
-              style={styles.emailInput}
-              onChangeText={(text) => setEmail(text)}
-              value={email}
-              placeholder="Adresse e-mail"
-              autoCapitalize={"none"}
-            />
-          </View>
-
-          <View style={styles.verticallySpaced}>
-            <TextInput
-              style={styles.emailInput}
-              onChangeText={(text) => setFirstName(text)}
-              value={firstName}
-              placeholder="Prénom"
-            />
-          </View>
-
-          <View style={styles.verticallySpaced}>
-            <TextInput
-              style={styles.emailInput}
-              onChangeText={(text) => setLastName(text)}
-              value={lastName}
-              placeholder="Nom"
-            />
-          </View>
-
-          <View style={[styles.verticallySpaced, styles.inputContainer]}>
-            <TextInput
-              style={styles.passwordInput}
-              onChangeText={(text) => setPassword(text)}
-              value={password}
-              secureTextEntry={!showPassword}
-              placeholder="Mot de passe"
-              autoCapitalize={"none"}
-            />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Icon
-                name={showPassword ? "eye-off" : "eye"}
-                size={24}
-                color="#888"
-                style={styles.eyeIcon}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={[styles.verticallySpaced, styles.inputContainer]}>
-            <TextInput
-              style={styles.passwordInput}
-              onChangeText={(text) => setConfirmPassword(text)}
-              value={confirmPassword}
-              secureTextEntry={!showConfirmPassword}
-              placeholder="Confirmer le mot de passe"
-              autoCapitalize={"none"}
-            />
-            <TouchableOpacity
-              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-            >
-              <Icon
-                name={showConfirmPassword ? "eye-off" : "eye"}
-                size={24}
-                color="#888"
-                style={styles.eyeIcon}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.verticallySpaced}>
-            <TouchableOpacity
-              style={styles.button}
-              disabled={loading}
-              onPress={() => signUpWithEmail()}
-            >
-              <Text style={styles.buttonText}>Créer un compte</Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
+      </View>
+      <View style={styles.verticallySpaced}>
+        <TextInput
+          style={styles.emailInput}
+          onChangeText={(text) => setLastName(text)}
+          value={lastName}
+          placeholder="Nom"
+        />
+      </View>
+      <View style={styles.verticallySpaced}>
+        <Link href="/signupemail" asChild>
+          <TouchableOpacity
+            style={styles.button}
+            disabled={loading}
+            onPress={() => signUpWithEmail()}
+          >
+            <Text style={styles.buttonText}>Suivant</Text>
+          </TouchableOpacity>
+        </Link>
+      </View>
+      )
     </View>
   );
 }

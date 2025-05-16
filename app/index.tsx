@@ -4,7 +4,6 @@ import { theme } from "../theme";
 import { Link } from "expo-router";
 
 // Welcome screen for the app
-// Offers user the options to get started with onboarding or to log in
 
 export default function App() {
   return (
@@ -47,14 +46,12 @@ const styles = StyleSheet.create({
     height: 180,
     alignSelf: "center",
     borderRadius: 100,
-    // marginTop: 20,
+    marginBottom: 20,
   },
   introText: {
     textAlign: "center",
     color: theme.colorBlue,
     fontSize: 30,
-    // paddingHorizontal: 30,
-    // paddingVertical: 10,
   },
   introTextHeader: {
     fontSize: 40,
