@@ -5,10 +5,11 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  StyleSheet,
+  ActivityIndicator,
   Alert,
 } from "react-native";
 import { Link } from "expo-router";
-import { StyleSheet } from "react-native";
 import { theme } from "../../theme";
 import { isEmail } from "../../lib/tools";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -255,7 +256,11 @@ const Signup = () => {
           //       PASSWORD
           // ====================
           loading ? (
-            <Text style={{ fontSize: 20 }}>Chargement...</Text> // TODO: Spinner
+            <ActivityIndicator
+              size={100}
+              color={theme.colorBlue}
+              style={{ marginVertical: 30 }}
+            />
           ) : (
             <>
               <View style={styles.passwordContainer}>
@@ -317,20 +322,18 @@ const Signup = () => {
           //       SUCCESS
           // ====================
           <>
-            <Text>
-              Votre compte à bien été créé! Pour confirmer votre adresse e-mail,
-              veuillez consulter votre boîte de réception.
+            <Text style={styles.headingText}>
+              Votre compte à bien été créé! 🎉
             </Text>
-
-            <Text>
-              Si vous ne trouvez pas l'e-mail, vérifiez votre dossier de spam 😉
+            <Text style={styles.largeText}>
+              Pour confirmer votre adresse e-mail, veuillez consulter votre
+              boîte de réception.
             </Text>
-
-            <Text>
+            <Text style={styles.smallText}>
+              Si vous ne trouvez pas l'e-mail, vérifiez votre dossier de spam.
               Si vous n'arrivez pas à vous connecter, n'hésitez pas à nous
               contacter à l'adresse suivante : hello@brizzle-english.com
             </Text>
-
             <Link href="/signin" asChild>
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Me connecter</Text>
@@ -367,6 +370,26 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 23,
+  },
+  headingText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: theme.colorBlue,
+    textAlign: "center",
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  largeText: {
+    color: theme.colorBlue,
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  smallText: {
+    color: theme.colorBlue,
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20,
   },
   button: {
     backgroundColor: theme.colorBlue,

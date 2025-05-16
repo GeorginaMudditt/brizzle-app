@@ -120,7 +120,7 @@ export default function Signin() {
               />
             </TouchableOpacity>
           </View>
-
+          <Text>TO DO: forgotten your password link</Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.button}
@@ -139,9 +139,6 @@ export default function Signin() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "center",
     paddingVertical: 150,
     paddingHorizontal: 50,
   },
@@ -153,11 +150,11 @@ const styles = StyleSheet.create({
     color: theme.colorBlue,
   },
   logoWithName: {
-    width: 180,
-    height: 180,
+    width: 100,
+    height: 100,
     alignSelf: "center",
     borderRadius: 100,
-    marginBottom: 50,
+    marginBottom: 30,
   },
   inputContainer: {
     flexDirection: "row",
@@ -166,7 +163,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    marginVertical: 10,
+    // marginVertical: 10,
     height: 50,
   },
 
@@ -190,9 +187,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: "center",
-    justifyContent: "center",
+    marginTop: 50,
     flex: 1,
-    gap: 20,
+    // gap: 20,
   },
   buttonText: {
     color: "white",
