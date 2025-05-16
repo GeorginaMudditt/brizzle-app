@@ -28,18 +28,18 @@ type FormValues = {
 
 const Signup = () => {
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState<Steps>("password"); // handle the view
+  const [step, setStep] = useState<Steps>("userName"); // handle the view
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [formValues, setFormValues] = useState<FormValues>({
-    firstName: "toto",
-    lastName: "titi",
-    email: "g.k.mudditt@gmail.com",
-    confirmEmail: "g.k.mudditt@gmail.com",
-    password: "123456",
-    confirmPassword: "123456",
+    firstName: "",
+    lastName: "",
+    email: "",
+    confirmEmail: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const handleUserNameSubmit = () => {
@@ -129,11 +129,16 @@ const Signup = () => {
 
   return (
     <View style={styles.container}>
+      {step === "userName" && (
+        <Link href="/login" asChild>
+          <Icon name="arrow-back-circle" style={styles.arrowIcon} />
+        </Link>
+      )}
       <Image
         source={require("../../assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
-      <View style={styles.horizontallySpaced}>
+      {/* <View style={styles.horizontallySpaced}>
         {steps.map(
           (s, index) =>
             index < 3 && (
@@ -149,6 +154,44 @@ const Signup = () => {
               </Text>
             )
         )}
+      </View> */}
+      <View style={styles.horizontallySpaced}>
+        {/* User Name Step */}
+        <TouchableOpacity
+          onPress={() => setStep("userName")}
+          disabled={step === "userName"} // Optional: disable if already on this step
+        >
+          <Icon
+            name="person"
+            size={28}
+            color={step === "userName" ? theme.colorRed : theme.colorBlue}
+            style={{ marginHorizontal: 10 }}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            // Only allow going back, not forward
+            if (step === "email" || step === "password" || step === "success")
+              setStep("email");
+          }}
+          disabled={step === "userName"}
+        >
+          {/* Email Step */}
+          <Icon
+            name="mail"
+            size={28}
+            color={step === "email" ? theme.colorRed : theme.colorBlue}
+            style={{ marginHorizontal: 10 }}
+          />
+        </TouchableOpacity>
+
+        {/* Password Step */}
+        <Icon
+          name="lock-closed"
+          size={28}
+          color={step === "password" ? theme.colorRed : theme.colorBlue}
+          style={{ marginHorizontal: 10 }}
+        />
       </View>
 
       {/* ============================
@@ -303,15 +346,19 @@ const Signup = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "center",
     paddingVertical: 150,
     paddingHorizontal: 50,
   },
+  arrowIcon: {
+    position: "absolute",
+    top: 80,
+    left: 50,
+    fontSize: 40,
+    color: theme.colorBlue,
+  },
   logoWithName: {
-    width: 180,
-    height: 180,
+    width: 100,
+    height: 100,
     alignSelf: "center",
     borderRadius: 100,
     marginBottom: 50,

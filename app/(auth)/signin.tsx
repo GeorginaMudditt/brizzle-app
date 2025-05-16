@@ -75,7 +75,7 @@ export default function Signin() {
 
   return (
     <View style={styles.container}>
-      <Link href="/" asChild>
+      <Link href="/login" asChild>
         <Icon name="arrow-back-circle" style={styles.arrowIcon} />
       </Link>
       <Image
