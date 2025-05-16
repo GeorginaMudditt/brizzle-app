@@ -16,7 +16,7 @@ export default function freeContent() {
           style={styles.landscapeLogoWithName}
         />
         <Text style={styles.introTextHeader}>
-          Le contenu Brizzle C1 arrivera bientôt : prévu pour decembre 2025
+          Le contenu Brizzle C1 arrivera bientôt : prévu pour fevrier 2026
         </Text>
       </View>
     </View>

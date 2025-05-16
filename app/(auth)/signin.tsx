@@ -59,7 +59,7 @@ export default function Signin() {
             lastName: supabaseUser.user_metadata.last_name,
             email: supabaseUser.user_metadata.email,
           });
-          router.push("/dashboard");
+          router.push("/dashboard/whichuser");
         } else {
           Alert.alert(
             "Erreur lors de la récupération des informations utilisateur."

@@ -16,7 +16,7 @@ export default function freeContent() {
           style={styles.landscapeLogoWithName}
         />
         <Text style={styles.introTextHeader}>
-          Le contenu Brizzle A2 arrivera bientôt : prévu pour juillet 2025
+          Le contenu Brizzle A2 arrivera bientôt : prévu pour decembre 2025
         </Text>
       </View>
     </View>
