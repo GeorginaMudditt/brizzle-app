@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { theme } from "../theme";
+import { theme } from "@theme/theme";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Link } from "expo-router";
 
@@ -12,7 +12,7 @@ export function HowItWorks() {
         récompenses. Par exemple, pour la catégorie "nourriture", vous pourriez
         voir{" "}
         <Image
-          source={require("../assets/apple-original.png")}
+          source={require("@assets/apple-original.png")}
           style={styles.icon}
         />
         .
@@ -38,17 +38,14 @@ export function HowItWorks() {
         les défis bronze, argent et or pour la catégorie "nourriture", vous
         verrez{" "}
         <Image
-          source={require("../assets/apple-bronze.png")}
+          source={require("@assets/apple-bronze.png")}
           style={styles.icon}
         />
         <Image
-          source={require("../assets/apple-silver.png")}
+          source={require("@assets/apple-silver.png")}
           style={styles.icon}
         />
-        <Image
-          source={require("../assets/apple-gold.png")}
-          style={styles.icon}
-        />
+        <Image source={require("@assets/apple-gold.png")} style={styles.icon} />
       </Text>
     </View>
   );

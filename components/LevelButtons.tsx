@@ -1,5 +1,5 @@
 // import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-// import { theme } from "../theme";
+// import { theme } from "@theme/theme";
 // import { Link } from "expo-router";
 
 // export function LevelButtons() {

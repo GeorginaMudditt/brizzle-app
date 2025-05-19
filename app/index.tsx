@@ -1,15 +1,25 @@
 import React from "react";
+import { useUser } from "@providers/UserProvider";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { theme } from "../theme";
-import { Link } from "expo-router";
+import { theme } from "@theme/theme";
+import { Link, useRouter } from "expo-router";
 
 // Welcome screen for the app
 export default function App() {
+  const { id } = useUser();
+  const router = useRouter();
+
+  console.log("id:", id);
+  // If the user is logged in, redirect to the home page
+  if (id) {
+    router.replace("/dashboard");
+  }
+
   return (
     <View style={styles.container}>
       <View>
         <Image
-          source={require("../assets/brizzle-insta-square.png")}
+          source={require("@assets/brizzle-insta-square.png")}
           style={styles.logoWithName}
         />
         <Text style={[styles.introText, styles.introTextHeader]}>
