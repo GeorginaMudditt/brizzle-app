@@ -1,10 +1,16 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
+type SubAccount = {
+  id: string;
+  subAccountName: string;
+};
+
 type UserState = {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
+  subAccounts?: SubAccount[];
 };
 
 type UserContextType = UserState & {
@@ -16,6 +22,7 @@ const initialState: UserState = {
   firstName: "",
   lastName: "",
   email: "",
+  subAccounts: [],
 };
 
 const UserContext = createContext<UserContextType>({
@@ -25,6 +32,8 @@ const UserContext = createContext<UserContextType>({
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserState>(initialState);
+
+  // TODO: use async storage to persist user data
 
   return (
     <UserContext.Provider

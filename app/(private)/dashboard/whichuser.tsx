@@ -19,7 +19,7 @@ const WhichUser = () => {
         source={require("@assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
-      <Text style={styles.introText}>Qui joue aujourd'hui?</Text>
+      <Text style={styles.introText}>Qui joue aujourd'hui ?</Text>
       <Link href="/levels" asChild>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Continuer</Text>

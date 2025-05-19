@@ -51,14 +51,27 @@ export default function Signin() {
       } else {
         const supabaseUser = (await supabase.auth.getUser()).data.user;
 
+        const subAccount = (
+          await supabase
+            .from("sub_account")
+            .select("*")
+            .eq("user_id", supabaseUser?.id)
+        ).data;
+
+        const formattedSubAccount = subAccount?.map((sub) => ({
+          id: sub.id,
+          subAccountName: sub.sub_account_name,
+        }));
+
         if (supabaseUser) {
           setUser({
             id: supabaseUser.id,
             firstName: supabaseUser.user_metadata.first_name,
             lastName: supabaseUser.user_metadata.last_name,
             email: supabaseUser.user_metadata.email,
+            subAccounts: formattedSubAccount,
           });
-          router.push("/dashboard/whichuser");
+          router.push("/dashboard");
         } else {
           Alert.alert(
             "Erreur lors de la récupération des informations utilisateur."
@@ -141,13 +154,6 @@ const styles = StyleSheet.create({
     paddingVertical: 150,
     paddingHorizontal: 50,
   },
-  arrowIcon: {
-    position: "absolute",
-    top: 80,
-    left: 50,
-    fontSize: 40,
-    color: theme.colorBlue,
-  },
   logoWithName: {
     width: 100,
     height: 100,
@@ -155,6 +161,14 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginBottom: 30,
   },
+  arrowIcon: {
+    position: "absolute",
+    top: 80,
+    left: 50,
+    fontSize: 40,
+    color: theme.colorBlue,
+  },
+
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",

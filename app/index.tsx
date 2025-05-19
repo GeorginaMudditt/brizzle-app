@@ -9,7 +9,6 @@ export default function App() {
   const { id } = useUser();
   const router = useRouter();
 
-  console.log("id:", id);
   // If the user is logged in, redirect to the home page
   if (id) {
     router.replace("/dashboard");
