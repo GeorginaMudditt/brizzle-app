@@ -139,28 +139,11 @@ const Signup = () => {
         source={require("@assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
-      {/* <View style={styles.horizontallySpaced}>
-        {steps.map(
-          (s, index) =>
-            index < 3 && (
-              <Text
-                key={s}
-                style={{
-                  fontSize: 20,
-                  color: s === step ? theme.colorRed : theme.colorBlue,
-                  fontWeight: "bold",
-                }}
-              >
-                {index + 1}
-              </Text>
-            )
-        )}
-      </View> */}
       <View style={styles.horizontallySpaced}>
         {/* User Name Step */}
         <TouchableOpacity
           onPress={() => setStep("userName")}
-          disabled={step === "userName"} // Optional: disable if already on this step
+          disabled={step === "userName"}
         >
           <Icon
             name="person"

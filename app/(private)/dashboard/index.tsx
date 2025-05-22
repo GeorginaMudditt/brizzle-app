@@ -1,5 +1,6 @@
-import { Image, Text, View, StyleSheet } from "react-native";
+import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { theme } from "@theme/theme";
+import { Link } from "expo-router";
 import { useUser } from "@providers/UserProvider";
 import { SubAccountForm } from "@components/SubAccountForm";
 
@@ -16,7 +17,10 @@ const Dashboard = () => {
         source={require("@assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
-      <Text style={styles.headingText}>Bienvenue {firstName} 👋</Text>{" "}
+      {/* TO DO : The message below should depend on whether it's the first time the user is using the app or not */}
+      <Text style={styles.headingText}>
+        Bienvenue / Bienvenue à nouveau {firstName} 👋
+      </Text>{" "}
       <Text style={styles.largeText}>Qui joue ?</Text>
       <View style={styles.buttonContainer}>
         {subAccounts?.map((account) => (
@@ -26,6 +30,13 @@ const Dashboard = () => {
             </View>
           </View>
         ))}
+      </View>
+      <View style={styles.buttonContainer}>
+        <Link href="/heard_about" asChild>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Go to "heard_about" (temp)</Text>
+          </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );

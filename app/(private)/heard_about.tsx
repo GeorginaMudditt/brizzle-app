@@ -15,20 +15,17 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 
 // Asks the user how they heard about the app
 
-//UNRESOLVED ISSUE: If the user types in the "autre" textbox, they have to press the "Continuez" button twice before moving to onboarding2
-
 export default function HeardAbout() {
   const [selectedOption, setSelectedOption] = useState("");
   const [otherText, setOtherText] = useState("");
   const router = useRouter();
 
   const options = [
-    "Carte de visite promotionnelle",
-    "Amis ou famille",
-    "Cours avec Georgina",
-    "École",
-    "Moteur de recherche",
     "Google Play ou Apple Store",
+    "Facebook",
+    "Instagram",
+    "Amis ou famille",
+    "École",
     "Autre",
   ];
 
@@ -40,7 +37,7 @@ export default function HeardAbout() {
   };
 
   const handleContinue = () => {
-    router.push("/ready");
+    router.push("/location");
   };
 
   return (
@@ -54,8 +51,9 @@ export default function HeardAbout() {
           source={require("@assets/brizzle-insta-square.png")}
           style={styles.logoWithName}
         />
-        <Text style={styles.introText}>
-          Une dernière question. Comment avez-vous entendu parler de Brizzle ?
+        <Text style={styles.headingText}>Une petite question</Text>
+        <Text style={styles.largeText}>
+          Comment avez-vous entendu parler de Brizzle ?
         </Text>
         {options.map((option) => (
           <TouchableOpacity
@@ -90,22 +88,28 @@ export default function HeardAbout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 50,
+    paddingVertical: 150,
+    paddingHorizontal: 50,
   },
   logoWithName: {
-    width: 180,
-    height: 180,
+    width: 100,
+    height: 100,
     alignSelf: "center",
     borderRadius: 100,
+  },
+  headingText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: theme.colorBlue,
+    textAlign: "center",
+    marginBottom: 20,
     marginTop: 20,
   },
-  introText: {
+  largeText: {
     color: theme.colorBlue,
-    fontSize: 20,
-    paddingHorizontal: 30,
-    paddingVertical: 10,
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 20,
   },
   option: {
     flexDirection: "row",
@@ -115,11 +119,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginVertical: 5,
-    width: "80%",
+    width: "100%",
     alignItems: "center",
-  },
-  optionSelected: {
-    backgroundColor: theme.colorBlue,
   },
   optionText: {
     color: theme.colorBlue,
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colorBlue,
     borderWidth: 1,
     borderRadius: 5,
-    width: "80%",
+    width: "100%",
     padding: 10,
     marginVertical: 10,
   },
