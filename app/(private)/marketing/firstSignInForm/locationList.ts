@@ -1,9 +1,4 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, Image, View } from "react-native";
-import { theme } from "@theme/theme";
-import { Picker } from "@react-native-picker/picker";
-
-const departements = [
+export const departements = [
   "Ain",
   "Aisne",
   "Allier",
@@ -107,7 +102,7 @@ const departements = [
   "Mayotte",
 ];
 
-const countries = [
+export const countries = [
   "Afghanistan",
   "Afrique du Sud",
   "Albanie",
@@ -302,89 +297,3 @@ const countries = [
   "Zambie",
   "Zimbabwe",
 ];
-
-export default function Location() {
-  const [selectedDepartment, setSelectedDepartment] = useState();
-  const [selectedCountry, setSelectedCountry] = useState();
-
-  return (
-    <View style={styles.container}>
-      <Image
-        source={require("@assets/brizzle-insta-square.png")}
-        style={styles.logoWithName}
-      />
-      <Text style={styles.headingText}>Une dernière question</Text>
-      <Text style={styles.largeText}>Où habitez-vous ?</Text>
-      <Text style={styles.largeText}>🇫🇷 France & DOM</Text>
-      <Picker
-        selectedValue={selectedDepartment}
-        onValueChange={(itemValue) => setSelectedDepartment(itemValue)}
-        style={styles.picker}
-      >
-        <Picker.Item label="Sélectionnez un département" value="" />
-        {departements.map((dep) => (
-          <Picker.Item key={dep} label={dep} value={dep} />
-        ))}
-      </Picker>
-      <Text style={styles.largeText}>🌏 Un autre pays</Text>
-      <Picker
-        selectedValue={selectedCountry}
-        onValueChange={(itemValue) => setSelectedCountry(itemValue)}
-        style={styles.picker}
-      >
-        <Picker.Item
-          label="Sélectionnez un pays"
-          value=""
-          style={styles.pickerItem}
-        />
-        {countries.map((country) => (
-          <Picker.Item
-            key={country}
-            label={country}
-            value={country}
-            style={styles.pickerItem}
-          />
-        ))}
-      </Picker>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingVertical: 150,
-    paddingHorizontal: 50,
-  },
-  logoWithName: {
-    width: 100,
-    height: 100,
-    alignSelf: "center",
-    borderRadius: 100,
-  },
-  headingText: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: theme.colorBlue,
-    textAlign: "center",
-    marginBottom: 20,
-    marginTop: 20,
-  },
-  largeText: {
-    color: theme.colorBlue,
-    fontSize: 24,
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  picker: {
-    backgroundColor: "#fff",
-    marginBottom: 10,
-  },
-  pickerItem: {
-    fontSize: 18,
-    color: theme.colorBlue,
-    // borderColor: theme.colorBlue,
-    // borderWidth: 1,
-    // borderRadius: 5,
-  },
-});

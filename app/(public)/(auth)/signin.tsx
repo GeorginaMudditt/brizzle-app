@@ -71,7 +71,16 @@ export default function Signin() {
             email: supabaseUser.user_metadata.email,
             subAccounts: formattedSubAccount,
           });
-          router.push("/dashboard");
+
+          const marketing = await supabase.from("marketing").select("*");
+
+          console.log("marketing", marketing);
+
+          if (marketing?.data?.length === 0) {
+            router.push("/marketing/firstSignInForm");
+          } else {
+            router.push("/dashboard");
+          }
         } else {
           Alert.alert(
             "Erreur lors de la récupération des informations utilisateur."

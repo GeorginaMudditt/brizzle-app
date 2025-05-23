@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,18 +7,23 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import { theme } from "@theme/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { Picker } from "@react-native-picker/picker";
+import { departements, countries } from "./locationList";
+import { supabase } from "@lib/supabase";
 
-// Asks the user how they heard about the app
-
-export default function HeardAbout() {
+export default function FirstSignInMarketingForm() {
   const [selectedOption, setSelectedOption] = useState("");
   const [otherText, setOtherText] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState();
+  const [selectedCountry, setSelectedCountry] = useState();
   const router = useRouter();
+  const [step, setStep] = useState(1);
 
   const options = [
     "Google Play ou Apple Store",
@@ -36,11 +41,24 @@ export default function HeardAbout() {
     return selectedOption !== "";
   };
 
-  const handleContinue = () => {
-    router.push("/location");
+  const handleNext = () => {
+    if (isFormValid()) {
+      setStep(2);
+    } else {
+      alert("Veuillez sélectionner une option ou entrer un texte.");
+    }
   };
 
-  return (
+  const handleSubmit = async () => {
+    await supabase.from("marketing").insert({
+      heard_about: selectedOption === "Autre" ? otherText : selectedOption,
+      location: selectedDepartment || selectedCountry,
+    });
+
+    router.push("/dashboard");
+  };
+
+  return step === 1 ? (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAwareScrollView
         contentContainerStyle={styles.container}
@@ -76,12 +94,60 @@ export default function HeardAbout() {
           />
         )}
         {isFormValid() && (
-          <TouchableOpacity style={styles.button} onPress={handleContinue}>
+          <TouchableOpacity style={styles.button} onPress={handleNext}>
             <Text style={styles.buttonText}>Continuez</Text>
           </TouchableOpacity>
         )}
       </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
+  ) : (
+    <View style={styles.container}>
+      <Image
+        source={require("@assets/brizzle-insta-square.png")}
+        style={styles.logoWithName}
+      />
+      <Text style={styles.headingText}>Une dernière question</Text>
+      <Text style={styles.largeText}>Où habitez-vous ?</Text>
+      <Text style={styles.largeText}>🇫🇷 France & DOM</Text>
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={selectedDepartment}
+          onValueChange={(itemValue) => setSelectedDepartment(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item
+            label="Sélectionnez un département"
+            value=""
+            style={styles.pickerItem}
+          />
+          {departements.map((dep) => (
+            <Picker.Item key={dep} label={dep} value={dep} />
+          ))}
+        </Picker>
+      </View>
+      <Text style={styles.largeText}>🌏 Un autre pays</Text>
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={selectedCountry}
+          onValueChange={(itemValue) => setSelectedCountry(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item
+            label="Sélectionnez un pays"
+            value=""
+            style={styles.pickerItem}
+          />
+          {countries.map((country) => (
+            <Picker.Item
+              key={country}
+              label={country}
+              value={country}
+              style={styles.pickerItem}
+            />
+          ))}
+        </Picker>
+      </View>
+    </View>
   );
 }
 
@@ -151,5 +217,19 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 20,
+  },
+  picker: {
+    backgroundColor: "#fff",
+    marginBottom: 10,
+  },
+  pickerItem: {
+    fontSize: 18,
+    color: theme.colorBlue,
+  },
+  pickerContainer: {
+    borderColor: theme.colorBlue,
+    borderWidth: 1,
+    marginBottom: 30,
+    borderRadius: 4,
   },
 });

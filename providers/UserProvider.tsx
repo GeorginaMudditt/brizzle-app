@@ -15,6 +15,7 @@ type UserState = {
 
 type UserContextType = UserState & {
   setUser: (user: UserState) => void;
+  removeUser: () => void;
 };
 
 const initialState: UserState = {
@@ -28,18 +29,23 @@ const initialState: UserState = {
 const UserContext = createContext<UserContextType>({
   ...initialState,
   setUser: () => {},
+  removeUser: () => {},
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserState>(initialState);
-
   // TODO: use async storage to persist user data
+
+  const removeUser = () => {
+    setUser(initialState);
+  };
 
   return (
     <UserContext.Provider
       value={{
         ...user,
         setUser,
+        removeUser,
       }}
     >
       {children}
