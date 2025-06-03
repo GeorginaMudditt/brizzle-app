@@ -24,43 +24,43 @@ export default function Levels() {
           source={require("@assets/brizzle-insta-square.png")}
           style={styles.logoWithName}
         />
-        <Text style={[styles.introText, styles.introTextHeader]}>
+        <Text style={styles.headingText}>
           Tu veux essayer quel niveau, {firstName}?
         </Text>
       </View>
       <TouchableOpacity
         style={[styles.button, styles.a1Button]}
-        onPress={() => handleContinue("/a1/a1-how-it-works")}
+        onPress={() => handleContinue("/levels/a1/a1-how-it-works")}
       >
         <Text style={styles.buttonText}>A1 : Débutant</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, styles.a2Button]}
-        onPress={() => handleContinue("/a2/free-content")}
+        onPress={() => handleContinue("/levels/a2/free-content")}
       >
         <Text style={styles.buttonText}>A2 : Élémentaire</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, styles.b1Button]}
-        onPress={() => handleContinue("/b1/free-content")}
+        onPress={() => handleContinue("/levels/b1/free-content")}
       >
         <Text style={styles.buttonText}>B1 : Intermédiaire</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, styles.b2Button]}
-        onPress={() => handleContinue("/b2/free-content")}
+        onPress={() => handleContinue("/levels/b2/free-content")}
       >
         <Text style={styles.buttonText}>B2 : Intermédiaire Plus</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, styles.c1Button]}
-        onPress={() => handleContinue("/c1/free-content")}
+        onPress={() => handleContinue("/levels/c1/free-content")}
       >
         <Text style={styles.buttonText}>C1 : Avancé</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, styles.c2Button]}
-        onPress={() => handleContinue("/c2/free-content")}
+        onPress={() => handleContinue("levels/c2/free-content")}
       >
         <Text style={styles.buttonText}>C2 : Expert</Text>
       </TouchableOpacity>
@@ -76,31 +76,37 @@ export default function Levels() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    paddingVertical: 150,
+    paddingHorizontal: 50,
   },
   logoWithName: {
-    width: 180,
-    height: 180,
+    width: 100,
+    height: 100,
     alignSelf: "center",
     borderRadius: 100,
+  },
+  headingText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: theme.colorBlue,
+    textAlign: "center",
+    marginBottom: 20,
     marginTop: 20,
   },
-  introTextHeader: {
-    fontSize: 30,
+  largeText: {
     color: theme.colorBlue,
-  },
-  introText: {
+    fontSize: 24,
     textAlign: "center",
-    fontSize: 20,
-    paddingHorizontal: 30,
-    paddingVertical: 10,
+    marginBottom: 20,
   },
   button: {
-    width: 250,
-    padding: 10,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
     borderRadius: 5,
-    marginVertical: 10,
+    marginTop: 20,
+    marginBottom: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonText: {
     color: "white",

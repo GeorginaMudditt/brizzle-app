@@ -89,6 +89,14 @@ export const SubAccountForm = () => {
             <Text style={styles.buttonText}>Créer</Text>
           </TouchableOpacity>
         </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => router.push("/levels")}
+          >
+            <Text style={styles.buttonText}>Go to levels (temp)</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

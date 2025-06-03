@@ -8,7 +8,7 @@ export default function freeContent() {
   return (
     <View style={styles.container}>
       <Link href="/levels" asChild>
-        <Ionicons style={styles.arrowBack} name="arrow-back-circle" />
+        <Ionicons style={styles.arrowIcon} name="arrow-back-circle" />
       </Link>
       <View>
         <Image
@@ -26,15 +26,15 @@ export default function freeContent() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    paddingVertical: 150,
+    paddingHorizontal: 50,
   },
-  arrowBack: {
+  arrowIcon: {
+    position: "absolute",
+    top: 80,
+    left: 50,
     fontSize: 40,
     color: theme.colorBlue,
-    position: "absolute",
-    top: 20,
-    left: 20,
   },
   landscapeLogoWithName: {
     width: 250,
