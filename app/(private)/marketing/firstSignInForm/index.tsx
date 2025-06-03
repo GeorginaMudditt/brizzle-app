@@ -20,8 +20,8 @@ import { supabase } from "@lib/supabase";
 export default function FirstSignInMarketingForm() {
   const [selectedOption, setSelectedOption] = useState("");
   const [otherText, setOtherText] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState();
-  const [selectedCountry, setSelectedCountry] = useState();
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
   const router = useRouter();
   const [step, setStep] = useState(1);
 
@@ -42,10 +42,15 @@ export default function FirstSignInMarketingForm() {
   };
 
   const handleNext = () => {
-    if (isFormValid()) {
-      setStep(2);
-    } else {
-      alert("Veuillez sélectionner une option ou entrer un texte.");
+    if (step === 1) {
+      if (isFormValid()) {
+        setStep(2);
+      } else {
+        alert("Veuillez sélectionner une option ou entrer un texte.");
+      }
+    } else if (step === 2) {
+      // Optionally, you can validate the location selection here
+      router.push("/dashboard");
     }
   };
 
@@ -112,41 +117,38 @@ export default function FirstSignInMarketingForm() {
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={selectedDepartment}
-          onValueChange={(itemValue) => setSelectedDepartment(itemValue)}
-          style={styles.picker}
+          onValueChange={(itemValue) => {
+            setSelectedDepartment(itemValue);
+            if (itemValue) setSelectedCountry("");
+          }}
         >
-          <Picker.Item
-            label="Sélectionnez un département"
-            value=""
-            style={styles.pickerItem}
-          />
+          <Picker.Item label="Sélectionnez un département" value="" />
           {departements.map((dep) => (
             <Picker.Item key={dep} label={dep} value={dep} />
           ))}
         </Picker>
       </View>
-      <Text style={styles.largeText}>🌏 Un autre pays</Text>
+      <Text style={styles.largeText}>ou</Text>
+      <Text style={styles.largeText}>🌏 un autre pays</Text>
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={selectedCountry}
-          onValueChange={(itemValue) => setSelectedCountry(itemValue)}
-          style={styles.picker}
+          onValueChange={(itemValue) => {
+            setSelectedCountry(itemValue);
+            if (itemValue) setSelectedDepartment("");
+          }}
         >
-          <Picker.Item
-            label="Sélectionnez un pays"
-            value=""
-            style={styles.pickerItem}
-          />
+          <Picker.Item label="Sélectionnez un pays" value="" />
           {countries.map((country) => (
-            <Picker.Item
-              key={country}
-              label={country}
-              value={country}
-              style={styles.pickerItem}
-            />
+            <Picker.Item key={country} label={country} value={country} />
           ))}
         </Picker>
       </View>
+      {(!!selectedDepartment || !!selectedCountry) && (
+        <TouchableOpacity style={styles.button} onPress={handleNext}>
+          <Text style={styles.buttonText}>Continuez</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -218,18 +220,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
   },
-  picker: {
-    backgroundColor: "#fff",
-    marginBottom: 10,
-  },
-  pickerItem: {
-    fontSize: 18,
-    color: theme.colorBlue,
-  },
   pickerContainer: {
     borderColor: theme.colorBlue,
     borderWidth: 1,
-    marginBottom: 30,
+    marginBottom: 20,
     borderRadius: 4,
   },
 });
