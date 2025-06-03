@@ -72,9 +72,10 @@ export default function Signin() {
             subAccounts: formattedSubAccount,
           });
 
-          const marketing = await supabase.from("marketing").select("*");
-
-          console.log("marketing", marketing);
+          const marketing = await supabase
+            .from("marketing")
+            .select("*")
+            .eq("user_id", supabaseUser.id);
 
           if (marketing?.data?.length === 0) {
             router.push("/marketing/firstSignInForm");
