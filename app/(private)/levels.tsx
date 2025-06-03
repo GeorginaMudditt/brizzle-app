@@ -30,7 +30,7 @@ export default function Levels() {
       </View>
       <TouchableOpacity
         style={[styles.button, styles.a1Button]}
-        onPress={() => handleContinue("/levels/a1/a1-how-it-works")}
+        onPress={() => handleContinue("/levels/a1/a1-how-it-works-1")}
       >
         <Text style={styles.buttonText}>A1 : Débutant</Text>
       </TouchableOpacity>
