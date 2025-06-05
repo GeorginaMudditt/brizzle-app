@@ -2,13 +2,15 @@ import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { theme } from "@theme/theme";
 import { Link } from "expo-router";
 import { useUser } from "@providers/UserProvider";
-import { SubAccountForm } from "@components/SubAccountForm";
+import { useRouter } from "expo-router";
 
 const Dashboard = () => {
   const { firstName, subAccounts } = useUser();
+  const router = useRouter();
 
   if (subAccounts?.length === 0) {
-    return <SubAccountForm />;
+    router.push("/account/sub_account/create");
+    return;
   }
 
   return (
@@ -19,7 +21,7 @@ const Dashboard = () => {
       />
       {/* TO DO : The message below should depend on whether it's the first time the user is using the app or not */}
       <Text style={styles.headingText}>
-        Bienvenue / Bienvenue à nouveau {firstName} 👋
+        Dashboard Bienvenue / Bienvenue à nouveau {firstName} 👋
       </Text>{" "}
       <Text style={styles.largeText}>Qui joue ?</Text>
       <View style={styles.buttonContainer}>

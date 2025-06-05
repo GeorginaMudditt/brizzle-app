@@ -3,6 +3,7 @@ import { Slot, useRouter } from "expo-router";
 import { useUser } from "@providers/UserProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { theme } from "@theme/theme";
+import { Menu } from "@components/Menu";
 
 const PrivateLayout = () => {
   const { id } = useUser();
@@ -19,6 +20,9 @@ const PrivateLayout = () => {
     <GestureHandlerRootView
       style={{ flex: 1, backgroundColor: theme.colorWhite }}
     >
+      <View style={{ position: "absolute", top: 10, right: 10 }}>
+        <Menu />
+      </View>
       <Slot />
     </GestureHandlerRootView>
   );

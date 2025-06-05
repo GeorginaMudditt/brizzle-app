@@ -12,95 +12,39 @@ import { supabase } from "@lib/supabase";
 import { useRouter } from "expo-router";
 import { useUser } from "@providers/UserProvider";
 
-// TODO: use supabase types generator
-export type subAccount = {
-  id: string;
-  sub_account_name: string;
-};
-
-export const SubAccountForm = () => {
-  const maxSubAccounts = 3; // TODO: make this within supabase
+const SubAccountCreateForm = () => {
+  const MAX_SUBACCOUNT = 3; // TODO: make this within supabase
   const router = useRouter();
-  const { id } = useUser();
+  const { id, subAccounts } = useUser();
+  const [newSubAccountNames, setNewSubAccountNames] = useState<string[]>([]);
+  const subAcountLess = MAX_SUBACCOUNT - (subAccounts?.length || 0);
 
-  const [subAccounts, setSubAccounts] = useState<subAccount[]>([
-    {
-      id: "new-1",
-      sub_account_name: "",
-    },
-    {
-      id: "new-2",
-      sub_account_name: "",
-    },
-    {
-      id: "new-3",
-      sub_account_name: "",
-    },
-  ]);
-
-  const retrieveSubAccountsFromSupabase = async () => {
-    const { data, error } = await supabase
-      .from("sub_account")
-      .select("id, sub_account_name")
-      .eq("user_id", id);
-    if (error) {
-      console.error("Error retrieving sub accounts:", error);
-      return [];
-    }
-    return data as subAccount[];
-  };
-
-  const updateSubAccount = async (subAccountId: string, name: string) => {
-    setSubAccounts((prev: any) =>
-      prev.map((subAccount: subAccount) =>
-        subAccount.id === subAccountId
-          ? { ...subAccount, sub_account_name: name }
-          : subAccount
-      )
-    );
+  const updateSubAccount = async (key: number, name: string) => {
+    setNewSubAccountNames((prev) => {
+      const updatedNames = [...prev];
+      updatedNames[key] = name;
+      return updatedNames;
+    });
   };
 
   const submitSubAccount = async () => {
-    // if subaccounts have id "new-1", "new-2", "new-3", then we need to insert them
-    const newSubAccounts = subAccounts.filter((subAccount) =>
-      subAccount.id.startsWith("new-")
-    );
-
-    if (newSubAccounts.length > maxSubAccounts) {
-      console.error(
-        `You can only create up to ${maxSubAccounts} sub accounts.`
-      );
-      return;
-    }
-
     try {
       // Insert new sub accounts
-      const { data, error } = await supabase.from("sub_account").insert(
-        newSubAccounts.map((subAccount) => ({
-          sub_account_name: subAccount.sub_account_name,
-        }))
-      );
-      await supabase.from("sub_account").update(subAccounts);
+      const { data, error } = await supabase
+        .from("sub_account")
+        .insert(
+          newSubAccountNames.map((name) => ({
+            sub_account_name: name,
+          }))
+        )
+        .select();
 
       router.push("/dashboard");
     } catch (error) {
-      // TODO: handle error
+      // TODO: handle errors
       console.error("Error inserting sub accounts:", error);
     }
   };
-
-  useEffect(() => {
-    const fetchSubAccounts = async () => {
-      const subAccounts = await retrieveSubAccountsFromSupabase();
-      if (subAccounts.length > 0) {
-        setSubAccounts(subAccounts);
-      } else {
-        console.log("No sub accounts found for this user.");
-      }
-    };
-
-    fetchSubAccounts();
-  }, [id]);
 
   return (
     <View style={styles.container}>
@@ -111,17 +55,20 @@ export const SubAccountForm = () => {
       <Text style={styles.headingText}>Créez jusqu'à 3 profils 👍</Text>
 
       <View style={styles.verticallySpaced}>
-        {subAccounts.map((subAccount, index) => (
+        {Array.from({ length: subAcountLess }, (_, index) => (
           <View key={index} style={styles.verticallySpaced}>
             <TextInput
               style={styles.input}
-              onChangeText={(text) => updateSubAccount(subAccount.id, text)}
-              value={subAccounts[index]?.sub_account_name || ""}
+              onChangeText={(text) =>
+                updateSubAccount(index, text.trim().length > 0 ? text : "")
+              }
+              value={newSubAccountNames[index] || ""}
               placeholder={`Nom du profil ${index + 1}`}
               autoCapitalize={"none"}
             />
           </View>
         ))}
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={submitSubAccount}>
             <Text style={styles.buttonText}>Créer</Text>
@@ -139,6 +86,8 @@ export const SubAccountForm = () => {
     </View>
   );
 };
+
+export default SubAccountCreateForm;
 
 const styles = StyleSheet.create({
   container: {
