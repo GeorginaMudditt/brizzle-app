@@ -76,7 +76,7 @@ export default function Levels() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 150,
+    paddingVertical: 50,
     paddingHorizontal: 50,
   },
   logoWithName: {

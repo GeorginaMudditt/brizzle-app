@@ -48,13 +48,13 @@ export default function TopicDetails() {
         />
         <Text style={styles.introTextHeader}>Brizzle A1</Text>
       </View>
-      <Text style={styles.h2}>
+      <Text style={styles.headingText}>Bienvenue dans le thème "{topic}"</Text>
+      <Text style={styles.largeText}>
         Vous allez apprendre du vocabulaire lié à "{topic}" (
         <Text style={styles.italic}>{icons?.topic_french}</Text>)
       </Text>
-      <Text style={styles.h3}>Il y a 3 défis : bronze, argent et or.</Text>
-      <Text style={styles.h3}>
-        Lorsque vous terminez les défis, vous serez récompensé avec ces icônes
+      <Text style={styles.smallText}>
+        Lorsque vous terminez les 3 défis, vous serez récompensé avec ces icônes
         sur votre tableau des récompenses:
       </Text>
       {icons && (
@@ -68,7 +68,7 @@ export default function TopicDetails() {
         style={styles.button}
         onPress={() => {
           router.push({
-            pathname: "/a1/a1-bronze",
+            pathname: "/levels/a1/a1-bronze",
             params: { topic },
           });
         }}
@@ -87,9 +87,8 @@ export default function TopicDetails() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 25,
+    paddingVertical: 100,
+    paddingHorizontal: 50,
   },
   balloonCircleLogo: {
     width: 100,
@@ -98,11 +97,31 @@ const styles = StyleSheet.create({
   awardsHeader: {
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   introTextHeader: {
     color: theme.colorA1,
     fontSize: 30,
+  },
+  headingText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: theme.colorBlue,
+    textAlign: "center",
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  largeText: {
+    color: theme.colorBlue,
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  smallText: {
+    color: theme.colorBlue,
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20,
   },
   h2: {
     fontSize: 30,

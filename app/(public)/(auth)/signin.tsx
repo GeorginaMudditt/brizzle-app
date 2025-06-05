@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useUser } from "@providers/UserProvider";
+import { useAsyncStorage } from "@hooks/use-async-storage";
 
 // User can sign in with email and password
 
@@ -24,6 +25,7 @@ export default function Signin() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { setUser } = useUser();
+  const { setItem } = useAsyncStorage();
 
   const router = useRouter();
 
@@ -31,7 +33,7 @@ export default function Signin() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error, data } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -49,13 +51,14 @@ export default function Signin() {
           Alert.alert("Erreur lors de la connexion : " + error.message);
         }
       } else {
-        const supabaseUser = (await supabase.auth.getUser()).data.user;
+        const jsonValue = JSON.stringify(data.session);
+        await setItem("session", jsonValue);
 
         const subAccount = (
           await supabase
             .from("sub_account")
             .select("*")
-            .eq("user_id", supabaseUser?.id)
+            .eq("user_id", data?.user?.id)
         ).data;
 
         const formattedSubAccount = subAccount?.map((sub) => ({
@@ -63,19 +66,19 @@ export default function Signin() {
           subAccountName: sub.sub_account_name,
         }));
 
-        if (supabaseUser) {
+        if (data?.user) {
           setUser({
-            id: supabaseUser.id,
-            firstName: supabaseUser.user_metadata.first_name,
-            lastName: supabaseUser.user_metadata.last_name,
-            email: supabaseUser.user_metadata.email,
+            id: data.user.id,
+            firstName: data.user.user_metadata.first_name,
+            lastName: data.user.user_metadata.last_name,
+            email: data.user.user_metadata.email,
             subAccounts: formattedSubAccount,
           });
 
           const marketing = await supabase
             .from("marketing")
             .select("*")
-            .eq("user_id", supabaseUser.id);
+            .eq("user_id", data.user.id);
 
           if (marketing?.data?.length === 0) {
             router.push("/marketing/firstSignInForm");

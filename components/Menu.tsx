@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { LogOutButton } from "./LogoutButton";
 
 export const Menu = () => {
   const router = useRouter();
@@ -50,6 +51,7 @@ export const Menu = () => {
             <Text>{page.name}</Text>
           </TouchableOpacity>
         ))}
+        <LogOutButton />
       </View>
     </View>
   );

@@ -8,7 +8,8 @@
       "@providers/*": ["./providers/*"],
       "@utils/*": ["./utils/*"],
       "@theme/*": ["./theme/*"],
-      "@lib/*": ["./lib/*"]
+      "@lib/*": ["./lib/*"],
+      "@hooks/*": ["./hooks/*"]
     }
   }
 }
