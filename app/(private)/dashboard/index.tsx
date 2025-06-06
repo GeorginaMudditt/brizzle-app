@@ -19,10 +19,7 @@ const Dashboard = () => {
         source={require("@assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
-      {/* TO DO : The message below should depend on whether it's the first time the user is using the app or not */}
-      <Text style={styles.headingText}>
-        Dashboard Bienvenue / Bienvenue à nouveau {firstName} 👋
-      </Text>{" "}
+      <Text style={styles.headingText}>Coucou 👋</Text>{" "}
       <Text style={styles.largeText}>Qui joue ?</Text>
       <View style={styles.buttonContainer}>
         {subAccounts?.map((account) => (
@@ -32,13 +29,6 @@ const Dashboard = () => {
             </View>
           </View>
         ))}
-      </View>
-      <View style={styles.buttonContainer}>
-        <Link href="/heard_about" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Go to "heard_about" (temp)</Text>
-          </TouchableOpacity>
-        </Link>
       </View>
     </View>
   );
@@ -92,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 50,
     flex: 1,
-    // gap: 20,
+    gap: 20,
   },
   buttonText: {
     color: "white",

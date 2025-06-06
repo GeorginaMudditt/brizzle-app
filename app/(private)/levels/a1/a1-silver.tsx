@@ -106,12 +106,13 @@ export default function Silver() {
                 shouldReverse={false}
                 renderColor="transparent"
                 renderText=""
+                onDrag={() => {}} // <-- Add this line
+                onRelease={() => {}} // <-- Add this line
                 onDragRelease={(e, gestureState) => {
                   const newPosition = {
                     x: gestureState.moveX,
                     y: gestureState.moveY,
                   };
-
                   setPositions((prevPositions) => ({
                     ...prevPositions,
                     [item.word_english]: newPosition,

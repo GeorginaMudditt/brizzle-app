@@ -52,8 +52,10 @@ const SubAccountCreateForm = () => {
         source={require("@assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
-      <Text style={styles.headingText}>Créez jusqu'à 3 profils 👍</Text>
-
+      <Text style={styles.headingText}>Ajoutez des joueur(s)</Text>
+      <Text style={styles.largeText}>
+        Vous pouvez avoir jusqu’à 3 joueurs par compte
+      </Text>
       <View style={styles.verticallySpaced}>
         {Array.from({ length: subAcountLess }, (_, index) => (
           <View key={index} style={styles.verticallySpaced}>
@@ -63,7 +65,7 @@ const SubAccountCreateForm = () => {
                 updateSubAccount(index, text.trim().length > 0 ? text : "")
               }
               value={newSubAccountNames[index] || ""}
-              placeholder={`Nom du profil ${index + 1}`}
+              placeholder="Joueur"
               autoCapitalize={"none"}
             />
           </View>
@@ -72,14 +74,6 @@ const SubAccountCreateForm = () => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={submitSubAccount}>
             <Text style={styles.buttonText}>Créer</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => router.push("/levels")}
-          >
-            <Text style={styles.buttonText}>Go to levels (temp)</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import { theme } from "@theme/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { LogOutButton } from "./LogoutButton";
 
@@ -8,36 +9,25 @@ export const Menu = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
-  const pages = [
-    { name: "Home", path: "/" },
+  type IoniconName = React.ComponentProps<typeof Ionicons>["name"];
+
+  const pages: { name: string; path: string; icon: IoniconName }[] = [
+    { name: "Accueil", path: "/", icon: "home-outline" },
+    { name: "Joueurs", path: "/dashboard", icon: "people-outline" },
     {
-      name: "Create sub Account",
+      name: "Ajouter un joueur",
       path: "/account/sub_account/create",
+      icon: "add-circle-outline",
     },
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "Levels", path: "/levels" },
+    { name: "Niveaux", path: "/levels", icon: "trophy-outline" },
   ];
 
   return (
-    <View style={{ position: "relative", padding: 10 }}>
+    <View style={styles.menu}>
       <TouchableOpacity onPress={() => setIsOpen(!isOpen)}>
-        <Ionicons name="menu-outline" size={24} color="black" />
+        <Ionicons name="menu-outline" style={styles.menuIcon} />
       </TouchableOpacity>
-      <View
-        style={{
-          display: isOpen ? "flex" : "none",
-          position: "absolute",
-          top: 50,
-          left: -200,
-          zIndex: 1000,
-          right: 0,
-          backgroundColor: "white",
-          padding: 10,
-          borderRadius: 5,
-          borderColor: "red",
-          borderWidth: 1,
-        }}
-      >
+      <View style={[styles.menuBox, { display: isOpen ? "flex" : "none" }]}>
         {pages.map((page) => (
           <TouchableOpacity
             key={page.name}
@@ -46,9 +36,12 @@ export const Menu = () => {
               router.push(page.path);
               setIsOpen(false);
             }}
-            style={{ padding: 10 }}
+            style={styles.menuOption}
           >
-            <Text>{page.name}</Text>
+            <View style={styles.optionContent}>
+              <Ionicons name={page.icon} style={styles.menuOptionIcon} />
+              <Text style={styles.menuText}>{page.name}</Text>
+            </View>
           </TouchableOpacity>
         ))}
         <LogOutButton />
@@ -56,3 +49,43 @@ export const Menu = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  menu: {
+    position: "relative",
+    padding: 10,
+  },
+  menuIcon: {
+    fontSize: 40,
+    color: theme.colorBlue,
+    top: 10,
+    right: 20,
+  },
+  menuBox: {
+    position: "absolute",
+    top: 60,
+    left: -250,
+    zIndex: 1001,
+    width: 250,
+    backgroundColor: theme.colorWhite,
+    padding: 20,
+    borderRadius: 5,
+    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.35)",
+  },
+  menuOption: {
+    padding: 10,
+  },
+  optionContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  menuText: {
+    fontSize: 18,
+    color: theme.colorBlue,
+  },
+  menuOptionIcon: {
+    color: theme.colorBlue,
+    fontSize: 18,
+    marginRight: 10,
+  },
+});

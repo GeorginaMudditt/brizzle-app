@@ -139,6 +139,7 @@ const Signup = () => {
         source={require("@assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
+      <Text style={styles.headingText}>Créez votre compte</Text>
       <View style={styles.horizontallySpaced}>
         {/* User Name Step */}
         <TouchableOpacity
@@ -151,6 +152,7 @@ const Signup = () => {
             color={step === "userName" ? theme.colorRed : theme.colorBlue}
             style={{ marginHorizontal: 10 }}
           />
+          <Text style={styles.smallText}>Étape 1</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -167,15 +169,19 @@ const Signup = () => {
             color={step === "email" ? theme.colorRed : theme.colorBlue}
             style={{ marginHorizontal: 10 }}
           />
+          <Text style={styles.smallText}>Étape 2</Text>
         </TouchableOpacity>
 
         {/* Password Step */}
-        <Icon
-          name="lock-closed"
-          size={28}
-          color={step === "password" ? theme.colorRed : theme.colorBlue}
-          style={{ marginHorizontal: 10 }}
-        />
+        <View>
+          <Icon
+            name="lock-closed"
+            size={28}
+            color={step === "password" ? theme.colorRed : theme.colorBlue}
+            style={{ marginHorizontal: 10 }}
+          />
+          <Text style={styles.smallText}>Étape 3</Text>
+        </View>
       </View>
 
       {/* ============================
@@ -347,7 +353,7 @@ const styles = StyleSheet.create({
     height: 100,
     alignSelf: "center",
     borderRadius: 100,
-    marginBottom: 50,
+    marginBottom: 20,
   },
   eyeIcon: {
     position: "absolute",
@@ -360,7 +366,6 @@ const styles = StyleSheet.create({
     color: theme.colorBlue,
     textAlign: "center",
     marginBottom: 20,
-    marginTop: 20,
   },
   largeText: {
     color: theme.colorBlue,
@@ -372,7 +377,8 @@ const styles = StyleSheet.create({
     color: theme.colorBlue,
     fontSize: 16,
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 10,
+    marginTop: 10,
   },
   button: {
     backgroundColor: theme.colorBlue,
