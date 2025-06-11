@@ -42,17 +42,13 @@ export default function Silver() {
         ? [...data].sort(() => Math.random() - 0.5)
         : [];
 
-      const frenchSorted = data
-        ? [...data].sort((a, b) =>
-            a.translation_french.localeCompare(b.translation_french)
-          )
-        : [];
-
       setVocab(
-        frenchSorted.map((item, index) => ({
-          ...item,
-          word_english: shuffledEnglish[index].word_english,
-        }))
+        data
+          ? data.map((item, index) => ({
+              ...item,
+              word_english: shuffledEnglish[index].word_english,
+            }))
+          : []
       );
     };
 
@@ -108,6 +104,7 @@ export default function Silver() {
                 renderText=""
                 onDrag={() => {}} // <-- Add this line
                 onRelease={() => {}} // <-- Add this line
+                onPressOut={() => {}} // <-- Add this line
                 onDragRelease={(e, gestureState) => {
                   const newPosition = {
                     x: gestureState.moveX,
