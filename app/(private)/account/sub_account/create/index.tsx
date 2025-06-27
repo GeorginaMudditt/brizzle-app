@@ -27,21 +27,33 @@ const SubAccountCreateForm = () => {
     });
   };
 
+  useEffect(() => {
+    if ((subAccounts?.length || 0) >= MAX_SUBACCOUNT) {
+      router.replace("/dashboard"); // Redirect if already at max
+    }
+  }, [subAccounts, router]);
+
+  //
+
   const submitSubAccount = async () => {
     try {
-      // Insert new sub accounts
+      const namesToInsert = newSubAccountNames.filter(
+        (name) => name.trim().length > 0
+      );
+      if (namesToInsert.length === 0) return;
+
       const { data, error } = await supabase
         .from("sub_account")
         .insert(
-          newSubAccountNames.map((name) => ({
+          namesToInsert.map((name) => ({
             sub_account_name: name,
+            user_id: id, // Make sure to associate with the current user!
           }))
         )
         .select();
 
       router.push("/dashboard");
     } catch (error) {
-      // TODO: handle errors
       console.error("Error inserting sub accounts:", error);
     }
   };
@@ -52,7 +64,7 @@ const SubAccountCreateForm = () => {
         source={require("@assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
       />
-      <Text style={styles.headingText}>Ajoutez des joueur(s)</Text>
+      <Text style={styles.headingText}>Ajoutez des joueurs</Text>
       <Text style={styles.largeText}>
         Vous pouvez avoir jusqu’à 3 joueurs par compte
       </Text>

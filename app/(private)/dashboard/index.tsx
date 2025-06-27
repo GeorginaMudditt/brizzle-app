@@ -1,20 +1,34 @@
+import { useEffect, useState } from "react";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { theme } from "@theme/theme";
+import { supabase } from "@lib/supabase";
 import { Link } from "expo-router";
 import { useUser } from "@providers/UserProvider";
 import { useRouter } from "expo-router";
 
-const Dashboard = () => {
-  const { firstName, subAccounts } = useUser();
-  const router = useRouter();
+export default function Dashboard() {
+  const { id } = useUser();
+  type Player = {
+    id: string;
+    sub_account_name: string;
+    // add other fields from your "sub_account" table as needed
+  };
+  const [players, setPlayers] = useState<Player[]>([]);
 
-  if (subAccounts?.length === 0) {
-    router.push("/account/sub_account/create");
-    return;
-  }
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      const { data, error } = await supabase
+        .from("sub_account")
+        .select("*")
+        .eq("user_id", id); // Only fetch sub-accounts for this user
+      if (!error) setPlayers(data);
+    };
+    fetchPlayers();
+  }, [id]);
 
   return (
     <View style={styles.container}>
+      //{" "}
       <Image
         source={require("@assets/brizzle-insta-square.png")}
         style={styles.logoWithName}
@@ -22,19 +36,24 @@ const Dashboard = () => {
       <Text style={styles.headingText}>Coucou 👋</Text>{" "}
       <Text style={styles.largeText}>Qui joue ?</Text>
       <View style={styles.buttonContainer}>
-        {subAccounts?.map((account) => (
-          <View key={account.id}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>{account.subAccountName}</Text>
-            </View>
-          </View>
+        {players.map((player) => (
+          <TouchableOpacity style={styles.button} key={player.id}>
+            <Text style={styles.buttonText}>{player.sub_account_name}</Text>
+          </TouchableOpacity>
         ))}
       </View>
     </View>
   );
-};
+}
 
-export default Dashboard;
+// const Dashboard = () => {
+//   const { firstName, subAccounts } = useUser();
+//   const router = useRouter();
+
+//   if (subAccounts?.length === 0) {
+//     router.push("/account/sub_account/create");
+//     return;
+//   }
 
 const styles = StyleSheet.create({
   container: {

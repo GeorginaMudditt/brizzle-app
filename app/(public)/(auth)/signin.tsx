@@ -79,8 +79,12 @@ export default function Signin() {
             .from("marketing")
             .select("*")
             .eq("user_id", data.user.id);
-
-          if (marketing?.data?.length === 0) {
+          if (
+            !subAccount ||
+            (Array.isArray(subAccount) && subAccount.length === 0)
+          ) {
+            router.push("/account/sub_account/create");
+          } else if (marketing?.data?.length === 0) {
             router.push("/marketing/firstSignInForm");
           } else {
             router.push("/dashboard");
